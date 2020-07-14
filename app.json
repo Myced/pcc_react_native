@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "pcc_lite",
+    "name": "MyPCC",
+    "slug": "mypcc",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
