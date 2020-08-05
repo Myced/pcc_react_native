@@ -12,7 +12,7 @@ const BottomNav = () => {
     const [index, setIndex] = React.useState(0);
 
     const [routes] = React.useState([
-        { key: 'home', title: 'Home', icon: 'queue-music' },
+        { key: 'home', title: 'Home', icon: 'home' },
         { key: 'diary', title: 'Diary', icon: 'album' },
         { key: 'hymns', title: 'Hymns', icon: 'history' },
         { key: 'books', title: 'Books', icon: 'history' },
