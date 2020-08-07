@@ -7,10 +7,11 @@ import {
     RetiredPastorsScreen, SundaySchoolScreen
 } from './Screens';
 import HomeTab from './Tabs/HomeTab';
+import { colors } from './config/Config';
 
 const MyRouter = () => {
     return (
-        <Router>
+        <Router navigationBarStyle={styles.headerStyle} titleStyle={styles.titleStyle}>
             <Stack>
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
@@ -43,6 +44,16 @@ const styles = {
         borderTopWidth: 1,
         opacity: 0.98,
         justifyContent:'space-between'
+    },
+
+    headerStyle: {
+        backgroundColor: colors.primary,
+    },
+
+    titleStyle: {
+        color: "#fff",
+        fontSize: 20,
+        fontWeight: 'bold',
     }
 }
 
