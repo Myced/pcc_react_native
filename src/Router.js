@@ -4,21 +4,29 @@ import {
     HomeScreen, HymnScreen, DiaryScreen, BooksScreen, ChurchInfoScreen,
     ChurchCalendarScreen, ChurchHistoryScreen, HealthScreen,
     EducationScreen, CommunicationScreen, PresbyteriesScreen,
-    RetiredPastorsScreen, SundaySchoolScreen
+    RetiredPastorsScreen, SundaySchoolScreen, EchoScreen, MessengerScreen,
 } from './Screens';
 import HomeTab from './Tabs/HomeTab';
 import { colors } from './config/Config';
 
 const MyRouter = () => {
     return (
-        <Router navigationBarStyle={styles.headerStyle} titleStyle={styles.titleStyle}>
+        <Router navigationBarStyle={styles.headerStyle}
+            titleStyle={styles.titleStyle} leftButtonIconStyle={styles.leftButtonIconStyle}>
             <Stack>
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
                         <Scene key="home"  title="Home" component={HomeScreen} />
                         <Scene key="diary" title="Church Diary" component={DiaryScreen} />
+
                         <Scene key="hymn" title="Hymns" component={HymnScreen} />
-                        <Scene key="books" title="Books" component={BooksScreen} />
+
+                        <Scene key="books" >
+                            <Scene key="booksMain" title="Books" component={BooksScreen} />
+                            <Scene key="messenger" title="The Messenger" component={MessengerScreen} />
+                            <Scene key="echo" title="Presbyterian Echo" component={EchoScreen} />
+                        </Scene>
+
                         <Scene key="info" >
                             <Scene key="church_info" title="Church Info" component={ChurchInfoScreen} />
                             <Scene key="churchCalendar" title="Church Calendar" component={ChurchCalendarScreen} />
@@ -54,6 +62,10 @@ const styles = {
         color: "#fff",
         fontSize: 20,
         fontWeight: 'bold',
+    },
+
+    leftButtonIconStyle: {
+        color: "#fff",
     }
 }
 

@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import {View, Text, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class BooksScreen extends Component {
+
+	openMessengerScreen()
+	{
+		Actions.messenger();
+	}
+
+	openEchoScreen()
+	{
+		Actions.echo();
+	}
+
     render() {
         return (
 			<View style={styles.containerStyles}>
 
-				<TouchableOpacity>
+				<TouchableOpacity onPress={ () => this.openEchoScreen() }>
 					<View style={styles.bookStyle}>
 						<Text style={styles.textStyle}>
 							PRESBYTERIAN ECHO
@@ -15,7 +27,7 @@ class BooksScreen extends Component {
 				</TouchableOpacity>
 				
 
-				<TouchableOpacity>
+				<TouchableOpacity onPress={ () => this.openMessengerScreen() }>
 					<View style={[styles.bookStyle, styles.messengerStyle]}>
 						<Text style={styles.textStyle}>
 							THE MESSENGER
