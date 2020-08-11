@@ -28,7 +28,7 @@ const styles = {
 	},
 
 	cardActionStyle: {
-		alignItems: 'flex-end',
+		justifyContent: 'flex-end',
 		color: 'red',
 		flexDirection: 'row',
 	}

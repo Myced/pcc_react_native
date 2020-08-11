@@ -16,7 +16,7 @@ const MyRouter = () => {
             <Stack>
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
-                        <Scene key="home"  title="Home" component={HomeScreen} />
+                        <Scene key="home"  title="Home" component={HomeScreen}  />
                         <Scene key="diary" title="Church Diary" component={DiaryScreen} />
 
                         <Scene key="hymn" title="Hymns" component={HymnScreen} />

@@ -1,11 +1,70 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
+import { Paragraph, Title } from 'react-native-paper';
+
+import Hymns from '../dataTest/HymnsData.json';
 
 class HymnScreen extends Component {
+
+    renderItem(item)
+    {
+        const hymn = item.item;
+        
+        return (
+            <View style={styles.rowContainer}>
+                <View>
+                    <View style={styles.circleStyle}>
+                        <Text style={styles.hymnNumberStyle}>{hymn.number}</Text>
+                    </View>
+                </View>
+
+                <View style={styles.hymnTitleContainerStyle}>
+                    <Title>CHB {hymn.number}</Title>
+                    <Paragraph>{hymn.title}</Paragraph>
+                </View>
+            </View>
+        );
+    }
     render() {
         return (
-            <Text> Hymns </Text>
+            <View>
+                <FlatList
+                    keyExtractor={item => "h" + item.number}
+                    data={Hymns}
+                    renderItem={this.renderItem}
+                />
+            </View>
         )
+    }
+}
+
+const styles = {
+    rowContainer: {
+        flexDirection: 'row',
+        padding: 5,
+        borderBottomColor: '#a4a4a4',
+        borderBottomWidth: 1
+    },
+
+    circleStyle: {
+        width: 60,
+        height: 60,
+        borderRadius: 50,
+        borderColor: 'red',
+        borderWidth: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'red',
+    },
+
+    hymnNumberStyle: {
+        color: "#fff",
+        fontSize: 30
+    },
+
+    hymnTitleContainerStyle: {
+        justifyContent: 'space-around',
+        paddingLeft: 10,
     }
 }
 
