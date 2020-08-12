@@ -1,36 +1,78 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableHighlight } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 import { colors, Device } from '../config/Config';
 
 class HomeScreen extends Component {
+
+    navigateToHymns()
+    {
+        Actions.diary();
+    }
+
+    navigateToDiary()
+    {
+        Actions.hymn();
+    }
+
+    navigateToBooks()
+    {
+        Actions.books();
+    }
+
+    navigateToInfo()
+    {
+        Actions.info();
+    }
+
     render() {
         return (
             <View style={styles.homeContainer}>
 
-                <View style={styles.buttonStyle}>
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#f40077"
+                    onPress={ this.navigateToDiary }
+                    style={styles.buttonStyle}
+                    >
                     <Text style={styles.textStyle}>
                         Church Hymn Book
                     </Text>
-                </View>
+                </TouchableHighlight>
 
-                <View style={styles.buttonStyle}>
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#f40077"
+                    onPress={ this.navigateToHymns }
+                    style={styles.buttonStyle}
+                    >
                     <Text style={styles.textStyle}>
-                        Hymn
+                        Hymns
                     </Text>
-                </View>
+                </TouchableHighlight>
 
-                <View style={styles.buttonStyle}>
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#f40077"
+                    onPress={ this.navigateToBooks }
+                    style={styles.buttonStyle}
+                    >
                     <Text style={styles.textStyle}>
                         Books
                     </Text>
-                </View>
+                </TouchableHighlight>
 
-                <View style={styles.buttonStyle}>
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#f40077"
+                    onPress={ this.navigateToInfo }
+                    style={styles.buttonStyle}
+                    >
                     <Text style={styles.textStyle}>
                         Church Info
                     </Text>
-                </View>
+                </TouchableHighlight>
 
             </View>
         )

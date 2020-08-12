@@ -21,7 +21,7 @@ class EchoScreen extends Component {
 
 				<FlatList 
 					data={EchoData}
-					keyExtractor={item => item.id}
+					keyExtractor={item => 'h_' + item.id}
 					renderItem={this.renderItem}
 					/>
 			</View>
