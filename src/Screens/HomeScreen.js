@@ -8,12 +8,12 @@ class HomeScreen extends Component {
 
     navigateToHymns()
     {
-        Actions.diary();
+        Actions.hymn();
     }
 
     navigateToDiary()
     {
-        Actions.hymn();
+        Actions.diary();
     }
 
     navigateToBooks()
@@ -37,7 +37,7 @@ class HomeScreen extends Component {
                     style={styles.buttonStyle}
                     >
                     <Text style={styles.textStyle}>
-                        Church Hymn Book
+                        Diary
                     </Text>
                 </TouchableHighlight>
 
@@ -48,7 +48,7 @@ class HomeScreen extends Component {
                     style={styles.buttonStyle}
                     >
                     <Text style={styles.textStyle}>
-                        Hymns
+                        Church Hymn Book
                     </Text>
                 </TouchableHighlight>
 

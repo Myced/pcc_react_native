@@ -20,7 +20,7 @@ class MessengerScreen extends Component {
 
 				<FlatList 
 					data={MessengerData}
-					keyExtractor={item => item.id}
+					keyExtractor={item => "m_" + item.id}
 					renderItem={this.renderItem}
 					/>
 			</View>
