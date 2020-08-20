@@ -37,7 +37,7 @@ class HomeScreen extends Component {
                     style={styles.buttonStyle}
                     >
                     <Text style={styles.textStyle}>
-                        Diary
+                        Church Diary
                     </Text>
                 </TouchableHighlight>
 
@@ -59,7 +59,7 @@ class HomeScreen extends Component {
                     style={styles.buttonStyle}
                     >
                     <Text style={styles.textStyle}>
-                        Books
+                        Books and Magazines
                     </Text>
                 </TouchableHighlight>
 
@@ -70,7 +70,7 @@ class HomeScreen extends Component {
                     style={styles.buttonStyle}
                     >
                     <Text style={styles.textStyle}>
-                        Church Info
+                        Church Information
                     </Text>
                 </TouchableHighlight>
 
