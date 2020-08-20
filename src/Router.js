@@ -5,6 +5,7 @@ import {
     ChurchCalendarScreen, ChurchHistoryScreen, HealthScreen,
     EducationScreen, CommunicationScreen, PresbyteriesScreen,
     RetiredPastorsScreen, SundaySchoolScreen, EchoScreen, MessengerScreen,
+    ReadingOneScreen, ReadingTwoScreen, ReadingTextScreen, ReadingPsalmsScreen
 } from './Screens';
 import HomeTab from './Tabs/HomeTab';
 import { colors } from './config/Config';
@@ -17,7 +18,13 @@ const MyRouter = () => {
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
                         <Scene key="home"  title="Home" component={HomeScreen}  />
-                        <Scene key="diary" title="Church Diary" component={DiaryScreen} />
+                        <Scene key="diary">
+                            <Scene key="diaryMain" title="Church Diary" component={DiaryScreen} initial />
+                            <Scene key="readingOne" title="1st Lesson" component={ReadingOneScreen} />
+                            <Scene key="readingTwo" title="2nd Lesson" component={ReadingTwoScreen} />
+                            <Scene key="readingText" title="Text Reading" component={ReadingTextScreen} />
+                            <Scene key="readingPsalms" title="Introit Psalms" component={ReadingPsalmsScreen} />
+                        </Scene>
 
                         <Scene key="hymn" title="Hymns" component={HymnScreen} />
 

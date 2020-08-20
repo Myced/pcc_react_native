@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements';
 import { Avatar, Card, Divider, DefaultTheme } from 'react-native-paper';
 
 import { colors } from '../config/Config';
+import { Actions } from 'react-native-router-flux';
 
 class DiaryScreen extends Component {
     state = {
@@ -28,12 +29,25 @@ class DiaryScreen extends Component {
         return years.map( year => <Picker.Item key={"y_" + year} label={year} value={year} /> )
     }
 
-    // getReadingsCardTitle()
-    // {
-    //     return (
+    navigateToReadingOne()
+    {
+        Actions.readingOne();
+    }
 
-    //     );
-    // }
+    navigateToReadingTwo()
+    {
+        Actions.readingTwo();
+    }
+
+    navigatteToReadingText()
+    {
+        Actions.readingText();
+    }
+
+    navigateToReadingPsalms()
+    {
+        Actions.readingPsalms();
+    }
 
     render() {
 
@@ -143,7 +157,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
 
                             <View style={styles.readingsContainer}>
                                 <TouchableHighlight
-                                    onPress={() => alert('daiary')}
+                                    onPress={() => this.navigateToReadingOne() }
                                     style={styles.readingRow}
                                     underlayColor="#aaa">
                                     <View>
@@ -152,7 +166,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    onPress={() => alert("done")}
+                                    onPress={() => this.navigateToReadingTwo() }
                                     style={[styles.readingRow, {backgroundColor: "#fff"}]}
                                     underlayColor="#aaa">
                                     <View>
@@ -163,7 +177,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    onPress={() => alert("cedric")}
+                                    onPress={() => this.navigatteToReadingText() }
                                     style={styles.readingRow}
                                     underlayColor="#aaa">
                                     <View>
@@ -207,7 +221,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </View>
 
                                 <TouchableHighlight
-                                    onPress={() => alert('daiary')}
+                                    onPress={() => this.navigateToReadingPsalms() }
                                     style={styles.readingRow}
                                     underlayColor="#aaa">
                                     <View style={styles.readingTextViewContainer}>
@@ -219,7 +233,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    onPress={() => alert("done")}
+                                    onPress={() => this.navigateToReadingOne() }
                                     style={[styles.readingRow, {backgroundColor: "#fff"}]}
                                     underlayColor="#aaa">
                                     <View style={styles.readingTextViewContainer}>
@@ -233,7 +247,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    onPress={() => alert("cedric")}
+                                    onPress={() => this.navigateToReadingTwo() }
                                     style={styles.readingRow}
                                     underlayColor="#aaa">
 
@@ -249,7 +263,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                 </TouchableHighlight>
 
                                 <TouchableHighlight
-                                    onPress={() => alert("done")}
+                                    onPress={() => this.navigatteToReadingText() }
                                     style={[styles.readingRow, {backgroundColor: "#fff"}]}
                                     underlayColor="#aaa">
                                     <View style={styles.readingTextViewContainer}>
