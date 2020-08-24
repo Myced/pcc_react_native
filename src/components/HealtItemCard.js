@@ -6,15 +6,19 @@ class HealthItemCard extends Component {
 
 	render() {
 		
-		const healthItem = this.props.item;
+		const healthItem = this.props.item.item;
 		
         return (
 			<View style={ styles.healthCard }>
-				<Text style={ styles.titleStyle }>Title</Text>
-				<Text style={ styles.secretaryStyle }>Secretary</Text>
-				<Text>Po Box</Text>
-				<Text>Tel</Text>
-				<Text>email</Text>
+				<Text style={ styles.titleStyle }>
+					{healthItem.name}
+				</Text>
+				<Text style={ styles.secretaryStyle }>
+					{healthItem.doctor}
+				</Text>
+				<Text style={styles.otherStyle}>{ healthItem.pobox }</Text>
+				<Text style={styles.otherStyle}>{ healthItem.address }</Text>
+				<Text style={styles.otherStyle}>{ healthItem.tel }</Text>
 			</View>
         )
     }
@@ -33,12 +37,19 @@ const styles = {
 	titleStyle: {
 		color: colors.primary,
 		fontWeight: 'bold',
-		fontSize: 20,
+		fontSize: 18,
 	},
 
 	secretaryStyle: {
 		fontSize: 16,
 		fontWeight: 'bold',
+		marginTop: 4,
+		marginBottom: 2
+	},
+
+	otherStyle: {
+		marginTop: 4,
+		marginBottom: 4,
 	}
 }
 
