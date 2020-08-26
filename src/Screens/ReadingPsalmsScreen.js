@@ -4,11 +4,14 @@ import {Text, View, ScrollView, StyleSheet} from 'react-native';
 class ReadingPsalmsScreen extends Component
 {
 	render(){
+
+		const reading = this.props.reading;
+
 		return (
 			<View>
 				<View style={ styles.readingTitleContainer }>
 					<Text style={styles.readingTitleText}>
-						Matt. 5: 1 - 5
+						{reading}
 					</Text>
 				</View>
 

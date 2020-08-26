@@ -4,11 +4,14 @@ import {Text, View, ScrollView, StyleSheet} from 'react-native';
 class ReadingTextScreen extends Component
 {
 	render(){
+
+		const reading = this.props.reading;
+
 		return (
 			<View>
 				<View style={ styles.readingTitleContainer }>
 					<Text style={styles.readingTitleText}>
-						Matt. 5: 1 - 5
+						{reading}
 					</Text>
 				</View>
 
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
 	},
 
 	readingTitleText: {
-		fontSize: 30,
+		fontSize: 25,
 		fontWeight: 'bold',
 		color: "#0101f7",
 	}

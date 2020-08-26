@@ -3,16 +3,123 @@ import { Text, View, TouchableHighlight, ScrollView } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { Button, Icon } from 'react-native-elements';
 import { Avatar, Card, Divider, DefaultTheme } from 'react-native-paper';
+import { Actions } from 'react-native-router-flux';
 
 import { colors } from '../config/Config';
-import { Actions } from 'react-native-router-flux';
+import { DateUtil } from '../utils/DateUtil';
+import { executeSQLQuery } from '../utils/SQLUtil';
+import days from '../data/days.json';
+import years from '../data/years';
+import months from '../data/months.json';
 
 class DiaryScreen extends Component {
     state = {
         day: '',
         month: '',
-        year: ""
+        year: "",
+        date: "",
+        datePartDay: "",
+        datePartYear: "",
+        readingLabel: "",
+        readingOne: "",
+        readingTwo: "",
+        readingText: "",
+        readingPsalms: "",
+        activatedYears: ["2018", "2019"],
     };
+
+    //initialise the date 
+    UNSAFE_componentWillMount()
+    {
+        const date = new Date();
+
+        const day = String(date.getDate());
+        let month = String(date.getMonth()+1);
+        const year = String(date.getFullYear());
+
+        //if the length is 1, prefix a zero
+        if( month.length === 1 )
+        {
+            month = "0" + month;
+        }
+
+        const dateToday = year + "-" + month + "-" + day;
+
+        const dateUtil = new DateUtil(dateToday);
+
+        this.setDateViews(day, month, year, dateUtil);
+    }
+
+    dateFilterCallback()
+    {
+        const day = this.state.day;
+        const month = this.state.month;
+        const year = this.state.year;
+
+        const date = year + "-" + month + "-" + day;
+        
+        const dateUtil = new DateUtil(date);
+
+        //reinitialise the readings to empty values 
+        this.setState({
+            readingLabel: "", 
+            readingOne: "",
+            readingTwo: "",
+            readingText: ""
+        },
+        () => this.setDateViews(day, month, year, dateUtil)
+        )
+
+    }
+
+    setDateViews(day, month, year, dateUtil)
+    {
+        const date = year + "-" + month + "-" + day;
+        const datePartDay = dateUtil.dayName + " " + dateUtil.day;
+        let datePartYear = ""
+
+        if(dateUtil.dayName !== "")
+        {
+            datePartYear = dateUtil.monthName + ", " + dateUtil.year;
+        } 
+
+        this.setState({day, month, year, datePartDay, datePartYear}, () => {
+            this.getReadings();
+        });
+    }
+
+    getReadings()
+    {
+        const date = this.state.day + "/" + this.state.month + "/" + this.state.year;
+        
+        const sql = "select * from scriptures where date = \"" + date + "\"";
+
+        executeSQLQuery(sql)
+            .then(result => {
+                if(result.length !== 0)
+                {
+                    //get the result object 
+                    const object = result[0];
+
+                    const readingLabel = object.name;
+                    const readingOne = object.reading_one;
+                    const readingTwo = object.reading_two;
+                    const readingText = object.text;
+                    const readingPsalms = object.psalms;
+
+                    //set this on the state now. 
+                    this.setState({
+                        readingLabel, readingOne, readingTwo,
+                        readingText, readingPsalms
+                    })
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                
+            })
+        
+    }
 
     renderDayPickerChildren(days)
     {
@@ -21,7 +128,7 @@ class DiaryScreen extends Component {
 
     renderMonthPickerChildren(months)
     {
-        return months.map( month => <Picker.Item key={"m_" + month} label={month} value={month} /> )
+        return months.map( month => <Picker.Item key={"m_" + month.number} label={month.name} value={month.number} /> )
     }
 
     renderYearPickerChildren(years)
@@ -31,27 +138,243 @@ class DiaryScreen extends Component {
 
     navigateToReadingOne()
     {
-        Actions.readingOne();
+        const reading = this.state.readingOne;
+
+        if(reading !== "")
+        {
+            Actions.readingOne({reading});
+        }
     }
 
     navigateToReadingTwo()
     {
-        Actions.readingTwo();
+        const reading = this.state.readingTwo;
+        
+        if(reading !== "")
+        {
+            Actions.readingTwo({reading});
+        }
     }
 
     navigatteToReadingText()
     {
-        Actions.readingText();
+        const reading = this.state.readingText;
+        
+        if(reading !== "")
+        {
+            Actions.readingText({reading});
+        }
     }
 
     navigateToReadingPsalms()
     {
-        Actions.readingPsalms();
+        const reading = this.state.readingPsalms;
+        
+        if(reading !== "")
+        {
+            Actions.readingPsalms({reading});
+        }
+    }
+
+    renderReadingsView()
+    {
+        //get the selected year first 
+        const year = this.state.year;
+        const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme   }  />
+
+        //check if the year is in the list of active years
+        if( ! this.state.activatedYears.includes(year))
+        {
+            return (
+                <View style={styles.errorView}>
+                    <Card elevation={2}>
+                        <Card.Title title="Error " subtitle="" left={LeftContent} />
+                        <Divider />
+                        <Card.Content style={{paddingTop: 10, paddingBottom: 10}}>
+                            <View>
+                                <Text style={styles.errorText}>
+                                    You have not yet bought the {this.state.year} diary.
+                                </Text>
+                                <Text style={styles.errorText}>
+                                    Click on the button below to purchase it.
+                                </Text>
+                                <Text style={styles.errorPriceText}>
+                                    Price: 500FCFA
+                                </Text>
+                            </View>
+                        </Card.Content>
+                        <Divider />
+                        <Card.Actions style={{justifyContent: 'flex-end'}}>
+                            <Button
+                                title="Buy"
+                                buttonStyle={[styles.buttonStyle, styles.buyButtonStyle]}
+                                riased
+                                onPress={() => alert('pressed')} />
+                        </Card.Actions>
+                    </Card>
+                </View>
+            )
+        }
+
+        if(this.state.readingLabel === "" || this.state.readingLabel === null)
+        {
+            return (
+                <View>
+                    <Card elevation={2} style={styles.parsedDateCard}>
+                        
+                        <Card.Content>
+                            <View style={styles.parsedDateView}>
+                                <Text style={[styles.parsedDateText, {alignItems: 'flex-start',}]}>
+                                    {this.state.datePartDay}
+                                </Text>
+
+                                <Text style={[styles.parsedDateText, {alignItems: 'flex-end'}]}>
+                                    { this.state.datePartYear }
+                                </Text>
+                            </View>
+                            <Divider />
+
+                            <View style={styles.readingsContainer}>
+                                <TouchableHighlight
+                                    onPress={() => this.navigateToReadingOne() }
+                                    style={styles.readingRow}
+                                    underlayColor="#aaa">
+                                    <View>
+                                        <Text style={styles.readingText}>
+                                            {this.state.readingOne}
+                                        </Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight
+                                    onPress={() => this.navigateToReadingTwo() }
+                                    style={[styles.readingRow, {backgroundColor: "#fff"}]}
+                                    underlayColor="#aaa">
+                                    <View>
+                                        <Text style={styles.readingText}>
+                                            {this.state.readingTwo}
+                                        </Text>
+                                    </View>
+                                </TouchableHighlight>
+
+                                <TouchableHighlight
+                                    onPress={() => this.navigatteToReadingText() }
+                                    style={styles.readingRow}
+                                    underlayColor="#aaa">
+                                    <View>
+                                        <Text style={styles.readingText}>
+                                            {this.state.readingText}
+                                        </Text>
+                                    </View>
+                                </TouchableHighlight>
+                            </View>
+
+                        </Card.Content>
+                        
+                        <Card.Actions>
+                            {/* <Button title="Cancel">Cancel</Button>
+                            <Button>Ok</Button> */}
+                        </Card.Actions>
+                    </Card>
+                </View>
+            )
+        }
+
+        return (
+            <View>
+                <Card elevation={2} style={styles.parsedDateCard}>
+                    
+                    <Card.Content>
+                        <View style={styles.parsedDateView}>
+                            <Text style={[styles.parsedDateText, {alignItems: 'flex-start',}]}>
+                                {this.state.datePartDay}
+                            </Text>
+
+                            <Text style={[styles.parsedDateText, {alignItems: 'flex-end'}]}>
+                                {this.state.datePartYear}
+                            </Text>
+                        </View>
+                        <Divider />
+
+                        <View style={styles.readingsContainer}>
+
+                            <View style={[styles.readingRow, {marginBottom: 2}]}>
+                                <Text style={styles.dayLabel}>
+                                    {this.state.readingLabel}
+                                </Text>
+                            </View>
+
+                            <TouchableHighlight
+                                onPress={() => this.navigateToReadingPsalms() }
+                                style={styles.readingRow}
+                                underlayColor="#aaa">
+                                <View style={styles.readingTextViewContainer}>
+                                    <Text style={styles.readingLabelStyle}>
+                                        Introit Psalms:
+                                    </Text>
+                                    <Text style={styles.readingText}>
+                                        {this.state.readingPsalms}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+
+                            <TouchableHighlight
+                                onPress={() => this.navigateToReadingOne() }
+                                style={[styles.readingRow, {backgroundColor: "#fff"}]}
+                                underlayColor="#aaa">
+                                <View style={styles.readingTextViewContainer}>
+                                    <Text style={styles.readingLabelStyle}>
+                                        1st Lesson:
+                                    </Text>
+                                    <Text style={styles.readingText}>
+                                        {this.state.readingOne}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+
+                            <TouchableHighlight
+                                onPress={() => this.navigateToReadingTwo() }
+                                style={styles.readingRow}
+                                underlayColor="#aaa">
+
+                                <View style={styles.readingTextViewContainer}>
+                                    <Text style={styles.readingLabelStyle}>
+                                        2nd Lesson:
+                                    </Text>
+                                    <Text style={styles.readingText}>
+                                        {this.state.readingTwo}
+                                    </Text>
+                                </View>
+                                    
+                            </TouchableHighlight>
+
+                            <TouchableHighlight
+                                onPress={() => this.navigatteToReadingText() }
+                                style={[styles.readingRow, {backgroundColor: "#fff"}]}
+                                underlayColor="#aaa">
+                                <View style={styles.readingTextViewContainer}>
+                                    <Text style={styles.readingLabelStyle}>
+                                        Text:
+                                    </Text>
+                                    <Text style={styles.readingText}>
+                                        {this.state.readingText}
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+                        </View>
+
+                    </Card.Content>
+                    
+                    <Card.Actions>
+                        {/* <Button title="Cancel">Cancel</Button>
+                        <Button>Ok</Button> */}
+                    </Card.Actions>
+                </Card>
+            </View>
+        )
     }
 
     render() {
-
-const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme   }  />
 
         return (
             <ScrollView style={styles.containerStyle}>
@@ -109,7 +432,7 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                     onValueChange={(itemValue, itemIndex) =>
                                         this.setState({year: itemValue})
                                     }>
-                                    {this.renderMonthPickerChildren(years)}
+                                    {this.renderYearPickerChildren(years)}
                                 </Picker>
                             </View>
                         </View>
@@ -126,212 +449,18 @@ const LeftContent = props => <Avatar.Icon icon="alert" {...props} theme={theme  
                                     color="white"
                                     />
                                 }
-                                onPress={() => alert('pressed')} />
+                                onPress={ this.dateFilterCallback.bind(this) }/>
                         </View>
                     </Card.Content>
                 </Card>
 
-
-                {/* put the view for the parsed date here  */}
-                {/* <View style={ styles.parsedDateContainer }>
-                    
-
-                    <View style={styles.dateViewBorder}></View>
-                </View> */}
-
                 {/* Put the view for the readings */}
-                <View>
-                    <Card elevation={2} style={styles.parsedDateCard}>
-                        
-                        <Card.Content>
-                            <View style={styles.parsedDateView}>
-                                <Text style={[styles.parsedDateText, {alignItems: 'flex-start',}]}>
-                                    Thursday 13
-                                </Text>
-
-                                <Text style={[styles.parsedDateText, {alignItems: 'flex-end'}]}>
-                                    August, 2020
-                                </Text>
-                            </View>
-                            <Divider />
-
-                            <View style={styles.readingsContainer}>
-                                <TouchableHighlight
-                                    onPress={() => this.navigateToReadingOne() }
-                                    style={styles.readingRow}
-                                    underlayColor="#aaa">
-                                    <View>
-                                        <Text style={styles.readingText}>Matt. 15: 14-23</Text>
-                                    </View>
-                                </TouchableHighlight>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigateToReadingTwo() }
-                                    style={[styles.readingRow, {backgroundColor: "#fff"}]}
-                                    underlayColor="#aaa">
-                                    <View>
-                                        <Text style={styles.readingText}>
-                                            Jer. 14: 19 - 22
-                                        </Text>
-                                    </View>
-                                </TouchableHighlight>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigatteToReadingText() }
-                                    style={styles.readingRow}
-                                    underlayColor="#aaa">
-                                    <View>
-                                        <Text style={styles.readingText}>
-                                            Matt. 13: 10 - 17
-                                        </Text>
-                                    </View>
-                                </TouchableHighlight>
-                            </View>
-
-                        </Card.Content>
-                        
-                        <Card.Actions>
-                            {/* <Button title="Cancel">Cancel</Button>
-                            <Button>Ok</Button> */}
-                        </Card.Actions>
-                    </Card>
-                </View>
-
-                <View>
-                    <Card elevation={2} style={styles.parsedDateCard}>
-                        
-                        <Card.Content>
-                            <View style={styles.parsedDateView}>
-                                <Text style={[styles.parsedDateText, {alignItems: 'flex-start',}]}>
-                                    Thursday 13
-                                </Text>
-
-                                <Text style={[styles.parsedDateText, {alignItems: 'flex-end'}]}>
-                                    August, 2020
-                                </Text>
-                            </View>
-                            <Divider />
-
-                            <View style={styles.readingsContainer}>
-
-                                <View style={[styles.readingRow, {marginBottom: 2}]}>
-                                    <Text style={styles.dayLabel}>
-                                        1st Sunday of Easter
-                                    </Text>
-                                </View>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigateToReadingPsalms() }
-                                    style={styles.readingRow}
-                                    underlayColor="#aaa">
-                                    <View style={styles.readingTextViewContainer}>
-                                        <Text style={styles.readingLabelStyle}>
-                                            Introit Psalms:
-                                        </Text>
-                                        <Text style={styles.readingText}>Matt. 15: 14-23</Text>
-                                    </View>
-                                </TouchableHighlight>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigateToReadingOne() }
-                                    style={[styles.readingRow, {backgroundColor: "#fff"}]}
-                                    underlayColor="#aaa">
-                                    <View style={styles.readingTextViewContainer}>
-                                        <Text style={styles.readingLabelStyle}>
-                                            1st Lesson:
-                                        </Text>
-                                        <Text style={styles.readingText}>
-                                            Jer. 14: 19 - 22
-                                        </Text>
-                                    </View>
-                                </TouchableHighlight>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigateToReadingTwo() }
-                                    style={styles.readingRow}
-                                    underlayColor="#aaa">
-
-                                    <View style={styles.readingTextViewContainer}>
-                                        <Text style={styles.readingLabelStyle}>
-                                            2nd Lesson:
-                                        </Text>
-                                        <Text style={styles.readingText}>
-                                            Matt. 13: 10 - 17
-                                        </Text>
-                                    </View>
-                                        
-                                </TouchableHighlight>
-
-                                <TouchableHighlight
-                                    onPress={() => this.navigatteToReadingText() }
-                                    style={[styles.readingRow, {backgroundColor: "#fff"}]}
-                                    underlayColor="#aaa">
-                                    <View style={styles.readingTextViewContainer}>
-                                        <Text style={styles.readingLabelStyle}>
-                                            Text:
-                                        </Text>
-                                        <Text style={styles.readingText}>
-                                            Jer. 14: 19 - 22
-                                        </Text>
-                                    </View>
-                                </TouchableHighlight>
-                            </View>
-
-                        </Card.Content>
-                        
-                        <Card.Actions>
-                            {/* <Button title="Cancel">Cancel</Button>
-                            <Button>Ok</Button> */}
-                        </Card.Actions>
-                    </Card>
-                </View>
-
-                <View style={styles.errorView}>
-                    <Card elevation={2}>
-                        <Card.Title title="Error " subtitle="" left={LeftContent} />
-                        <Divider />
-                        <Card.Content style={{paddingTop: 10, paddingBottom: 10}}>
-                            <View>
-                                <Text style={styles.errorText}>
-                                    You have not yet bought the {this.state.year} diary.
-                                </Text>
-                                <Text style={styles.errorText}>
-                                    Click on the button below to purchase it.
-                                </Text>
-                                <Text style={styles.errorPriceText}>
-                                    Price: 500FCFA
-                                </Text>
-                            </View>
-                        </Card.Content>
-                        <Divider />
-                        <Card.Actions style={{justifyContent: 'flex-end'}}>
-                            <Button
-                                title="Buy"
-                                buttonStyle={[styles.buttonStyle, styles.buyButtonStyle]}
-                                riased
-                                onPress={() => alert('pressed')} />
-                        </Card.Actions>
-                    </Card>
-                </View>
+                {this.renderReadingsView()}
 
             </ScrollView>
         )
     }
 }
-
-const days = [
-                "01", "02", "03", "04", "05", "06", "07", "08", "09",
-                "10", "11", "12", "13", "14", "15", "16", "17", "18",
-                "19", "20", "21", "22", "23", "24", "25", "26", "27",
-                "28", "29", "30", "31"
-            ];
-const months = [
-                    "January", "February", "March", "April", "May", "June",
-                    "July", "August", "September", "October", "November",
-                    "December"
-                ];
-
-const years = ["2018", "2019", "2020", "2021"];
 
 const styles = {
     containerStyle: {
@@ -445,6 +574,7 @@ const styles = {
     },
 
     errorView: {
+        marginTop: 20,
         marginBottom: 20
     },
 

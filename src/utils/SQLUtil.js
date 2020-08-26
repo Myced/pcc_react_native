@@ -14,7 +14,6 @@ const executeSQLQuery = async (sql, params = []) => {
 				params,
 	
 				(_, resultSet) => {
-					console.log("Sql success");
 					resolve(resultSet.rows._array);
 				},
 	
@@ -28,8 +27,7 @@ const executeSQLQuery = async (sql, params = []) => {
 			
 			},
 			(error) => { 
-				console.log("Transaction failed"); 
-				reject(error)
+					reject(error)
 				} 
 			,
 			() => console.log("Transaction success")
