@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Text, View, StyleSheet, ScrollView} from 'react-native';
 
+import ProgressDialog from '../components/ProgressDialog';
 class ReadingTwoScreen extends Component
 {
 	render(){

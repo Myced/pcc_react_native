@@ -33,7 +33,7 @@ class DiaryScreen extends Component {
     {
         const date = new Date();
 
-        const day = String(date.getDate());
+        let day = String(date.getDate());
         let month = String(date.getMonth()+1);
         const year = String(date.getFullYear());
 
@@ -41,6 +41,12 @@ class DiaryScreen extends Component {
         if( month.length === 1 )
         {
             month = "0" + month;
+        }
+
+        //check day length too 
+        if( day.length === 1 )
+        {
+            day = "0" + day;
         }
 
         const dateToday = year + "-" + month + "-" + day;
@@ -93,6 +99,9 @@ class DiaryScreen extends Component {
         const date = this.state.day + "/" + this.state.month + "/" + this.state.year;
         
         const sql = "select * from scriptures where date = \"" + date + "\"";
+
+        console.log(sql);
+        
 
         executeSQLQuery(sql)
             .then(result => {

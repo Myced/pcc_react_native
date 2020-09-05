@@ -9,6 +9,7 @@ class ScriptureTextParser
 	verseEnd = "";
 	floatVerseStart = 0.0;
 	floatVerseEnd = 0.0;
+	isCompleteChapter = false;
 
 	constructor(reading)
 	{
@@ -30,7 +31,15 @@ class ScriptureTextParser
 		verses = verses.replace(/[a-z]+/g, "");
 
 		//parse the second part of the reading. 
-		this.parseChapter(verses);
+		//check if it has verses 
+		if(this.hasVerses(verses))
+		{
+			this.parseChapter(verses);
+		}
+		else{
+			this.parseCompleteChapter(verses);
+		}
+		
 	}
 
 	parseChapter(text)
@@ -88,6 +97,25 @@ class ScriptureTextParser
 		else{
 			return text;
 		}
+	}
+
+	hasVerses(reading)
+	{
+		if(reading.includes(':'))
+			return true;
+
+		return false;
+	}
+
+	parseCompleteChapter(reading)
+	{
+		this.chapter = reading;
+
+		this.verseStart = "001";
+		this.verseEnd = "999";
+		this.floatVerseEnd = parseFloat(reading + "001");
+		this.floatVerseEnd = parseFloat(reading + "999");
+		this.isCompleteChapter = true;
 	}
 }
 
