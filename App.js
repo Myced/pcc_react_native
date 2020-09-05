@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import Expo, { AppLoading } from 'expo';
+import Expo from 'expo';
 import * as FileSystem from 'expo-file-system';
 import { Asset } from 'expo-asset';
 import { StyleSheet, Text, View } from 'react-native';
@@ -19,29 +18,15 @@ class App extends Component {
         ready: false,
     }
 
-    // componentDidMount()
-    // {
-    //     //intialise the database 
-    //     this._initDatabase();
-    // }
+    UNSAFE_componentWillMount()
+    {
+        //intialise the database 
+        this._initDatabase();
+    }
 
   
     render(){
-        // if( ! this.state.appReady)
-        // {
-        //     console.log("In app not ready");
-            
-        //     return (
-        //         <AppLoading
-        //             startAsync={this._initDatabase.bind(this)}
-        //             onFinish={() => this.setState({ appReady: true })}
-        //             onError={console.warn}
-        //             autoHideSplash={false}
-        //         />
-        //     )
-        // }
-        
-        
+  
         return (
             <PaperProvider>
                 <View style={styles.container}>
@@ -52,7 +37,7 @@ class App extends Component {
     }
 
 
-    async _initDatabase()
+    _initDatabase()
     {
         //get the database uri
         const dburi = `${FileSystem.documentDirectory}SQLite/${database.name}`;
@@ -61,14 +46,12 @@ class App extends Component {
         
 
         //check if the database already exists
-        await FileSystem.getInfoAsync(dburi, {})
+        FileSystem.getInfoAsync(dburi, {})
             .then((fileObject) => {
                 //check if the file exists 
                 if(fileObject.exists)
                 {
                     //maybe set the state. =
-                    // app.performSql();
-                    console.log(app);
                     
                     // this.setState({databaseExists: true, appReady: true});
                 }
@@ -81,12 +64,12 @@ class App extends Component {
             });
     }
 
-    async copyDatabase()
+    copyDatabase()
     {
-        await this.createAppSqliteDirectory();
+        this.createAppSqliteDirectory();
     }
 
-    async moveDatabaseFromAssets()
+    moveDatabaseFromAssets()
     {
         const assetFileUri = Asset.fromModule(
                             require('./assets/db/pcc.db')
@@ -94,13 +77,13 @@ class App extends Component {
 
         const app = this;
 
-        await FileSystem.downloadAsync(
+        FileSystem.downloadAsync(
             assetFileUri,
             `${FileSystem.documentDirectory}SQLite/${database.name}`
             )
             .then(({ uri }) => {
                 app.performSql();
-                this.setState({databaseCopied: true, appReady: true});
+                // this.setState({databaseCopied: true, appReady: true});
 
             })
             .catch(error => {
@@ -108,7 +91,7 @@ class App extends Component {
             });
     }
 
-    async createAppSqliteDirectory()
+    createAppSqliteDirectory()
     {
         const fileUri = `${FileSystem.documentDirectory}SQLite/`;
         const app = this;
@@ -117,7 +100,7 @@ class App extends Component {
             immediate: true,
         };
 
-        await FileSystem.makeDirectoryAsync(fileUri, options)
+        FileSystem.makeDirectoryAsync(fileUri, options)
             .then(() => {
                 app.moveDatabaseFromAssets();
             })
@@ -125,13 +108,13 @@ class App extends Component {
             )
     }
     
-    async performSql() {
+    performSql() {
         const version = '1.0.0';
         const db = SQLite.openDatabase(database.name, version);
     
         const sql = "select * from hospitals";
     
-        await db.transaction(tx => {
+        db.transaction(tx => {
             tx.executeSql(
                 sql,
                 [],
