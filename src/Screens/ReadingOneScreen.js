@@ -41,7 +41,7 @@ class ReadingOneScreen extends Component
 			.then(result => {
 
 				let currentreading = {
-					type: 'title',
+					type: 'readings',
 					title: reading,
 					content: result
 				};
@@ -105,14 +105,12 @@ class ReadingOneScreen extends Component
 	renderReadings()
 	{
 		
-		return this.state.scriptures.map( row => {
-
-			console.log(row);
+		return this.state.scriptures.map( (row, index) => {
 
 			if(row.type === "title")
 			{
 				return (
-					<Text style={styles.textTitleStyle}>{row.title}</Text>
+					<Text key={"h_" + index} style={styles.textTitleStyle}>{row.title}</Text>
 				)
 			}
 			else{
