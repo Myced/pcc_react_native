@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scene, Router, Stack } from 'react-native-router-flux';
+import { Scene, Router, Stack,  Drawer, } from 'react-native-router-flux';
 import {
     HomeScreen, HymnScreen, DiaryScreen, BooksScreen, ChurchInfoScreen,
     ChurchCalendarScreen, ChurchHistoryScreen, HealthScreen,
@@ -12,13 +12,15 @@ import { colors } from './config/Config';
 
 const MyRouter = () => {
     return (
-        <Router navigationBarStyle={styles.headerStyle}
+        <Router navigationBarStyle={styles.headerStyle} tintColor="#fff" navBarButtonColor="#fff"
             titleStyle={styles.titleStyle} leftButtonIconStyle={styles.leftButtonIconStyle}>
+
             <Stack>
+                
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
                         <Scene key="home"  title="Home" component={HomeScreen}  />
-                        <Scene key="diary">
+                        <Scene key="diary" >
                             <Scene key="diaryMain" title="Church Diary" component={DiaryScreen} initial />
                             <Scene key="readingOne" title="1st Lesson" component={ReadingOneScreen} />
                             <Scene key="readingTwo" title="2nd Lesson" component={ReadingTwoScreen} />
@@ -47,6 +49,15 @@ const MyRouter = () => {
                         </Scene>
                     </Scene>
                 </Scene>
+
+                <Drawer title="Drawer" key="drawer" drawer  drawerWidth={220}>
+                    <Scene key="rootDrawer">
+                        <Scene key="Login" drawer={false} component={HomeScreen} initial={true} hideNavBar/>
+                        <Scene key="Diary" component={DiaryScreen} title="Anasayfa" initial={false} renderLeftButton={null} />
+                        <Scene key="Cari" component={ChurchInfoScreen} title="Cari" />
+                    </Scene>
+                </Drawer>
+
             </Stack>
         </Router>
     );

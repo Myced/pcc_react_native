@@ -5,6 +5,7 @@ import { Asset } from 'expo-asset';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import * as SQLite from 'expo-sqlite';
+import FlashMessage from "react-native-flash-message";
 
 import MyRouter from './src/Router';
 import { database } from './src/config/Config';
@@ -31,6 +32,7 @@ class App extends Component {
             <PaperProvider>
                 <View style={styles.container}>
                     <MyRouter />
+                    <FlashMessage duration={5000} position="top" />
                 </View>
             </PaperProvider>
         );
