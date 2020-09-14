@@ -9,7 +9,7 @@ import axios from 'axios';
 
 import { AppStyles } from '../utils/AppStyles';
 import ProgressDialog from '../components/ProgressDialog';
-import { colors } from '../config/Config';
+import { colors, Api } from '../config/Config';
 
 class RegisterScreen extends React.Component {
 
@@ -58,11 +58,47 @@ class RegisterScreen extends React.Component {
 				this.setState({loading: true});
 
 				//now register the user 
+				const data = {
+					name: name,
+					tel: phone,
+					email: email,
+					password: password
+				};
+
+				//make the request 
+				axios.post(Api.registerUrl, data)
+					.then( (response) => {
+						console.log(response.data);
+
+						if(response.data.success)
+						{
+							this.loginUser(response.data.data)
+						}
+						else{
+
+							this.setState({loading: false});
+							alert(response.data.message)
+
+						}
+
+					} )
+					.catch( error => {
+						this.setState({loading: false});
+
+						alert("Encountered an error");
+						console.log(error.message);
+						
+					})
 			}
 
 		}
 		
 	};
+
+	loginUser(user)
+	{
+		alert("logging in user");
+	}
 
 	onLoginPress(){
 		Actions.pop();
