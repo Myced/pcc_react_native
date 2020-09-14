@@ -17,7 +17,8 @@ import MessengerScreen from './MessengerScreen';
 import ReadingOneScreen from './ReadingOneScreen';
 import ReadingTwoScreen from './ReadingTwoScreen';
 import ReadingTextScreen from './ReadingTextScreen';
-import ReadingPsalmsScreen from './ReadingPsalmsScreen'
+import ReadingPsalmsScreen from './ReadingPsalmsScreen';
+import LoginScreen from './LoginScreen';
 
 export {
 	HomeScreen,
@@ -39,4 +40,5 @@ export {
 	ReadingTwoScreen,
 	ReadingTextScreen,
 	ReadingPsalmsScreen,
+	LoginScreen,
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 const  HomeTab = (props) => {
@@ -13,9 +13,13 @@ const  HomeTab = (props) => {
 	const iconName = "home"
 
 	return (
-		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:20}}>
-			<Icon style={{color: textColor}} name={iconName || "circle"} size={18}/>
-			<Text style={{color: textColor}}>Home</Text>
+		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
+			<Icon
+				name='home'
+				size={24}
+				color='black'
+				/>
+			{/* <Text style={{color: textColor}}>Home</Text> */}
 		</View>
 	);
 }
