@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
+import {Keyboard, Text, View, TouchableWithoutFeedback, Alert, KeyboardAvoidingView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Input, Button } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 import { colors } from '../config/Config';
 
 const appId = "1047121222092614"
 
 export default class LoginScreen extends Component {
+
+	onRegisterPress(){
+		Actions.Register();
+	}
 
   render() {
     return (
@@ -62,7 +67,7 @@ export default class LoginScreen extends Component {
 						<Button
 							buttonStyle={styles.registerButton}
 							titleStyle={styles.registerText}
-							onPress={() => this.onLoginPress()}
+							onPress={() => this.onRegisterPress()}
 							title="Register"
 							raised
 							type="outline"
@@ -135,7 +140,7 @@ const styles = {
 	},
 
 	noAccountView: {
-		maringTop: 10,
+		marginTop: 10,
 		marginBottom: 10,
 		justifyContent: 'center',
 		alignItems: 'center',
@@ -152,7 +157,7 @@ const styles = {
 		marginLeft: 10,
 		marginRight: 10,
 		borderColor: colors.primary,
-		textColor: "#fff"
+		color: "#fff"
 	},
 
 	registerText: {
