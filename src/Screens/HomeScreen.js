@@ -8,22 +8,22 @@ class HomeScreen extends Component {
 
     navigateToHymns()
     {
-        Actions.hymn();
+        Actions.Hymn();
     }
 
     navigateToDiary()
     {
-        Actions.diary();
+        Actions.Diary();
     }
 
     navigateToBooks()
     {
-        Actions.books();
+        Actions.Books();
     }
 
     navigateToInfo()
     {
-        Actions.info();
+        Actions.Info();
     }
 
     render() {

@@ -1,15 +1,17 @@
 import React from "react";
-import { StyleSheet, Text, View, AsyncStorage, Alert } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
 import { TextInput } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { showMessage } from 'react-native-flash-message';
+import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 
 
 import { AppStyles } from '../utils/AppStyles';
 import ProgressDialog from '../components/ProgressDialog';
 import { colors, Api } from '../config/Config';
+import AsyncKeys from '../utils/AsyncKeys';
 
 class RegisterScreen extends React.Component {
 
@@ -95,10 +97,12 @@ class RegisterScreen extends React.Component {
 		
 	};
 
-	loginUser(user)
+	async loginUser(user)
 	{
 		//save it to the async storage.
-		AsyncStorage.setItem("@User", JSON.stringify(user));
+		await AsyncStorage.setItem(AsyncKeys.userKey, JSON.stringify(user));
+
+		this.setState({loading: false});
 
 		Alert.alert(
 			"Registration Successful!",

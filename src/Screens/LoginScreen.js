@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 
 import { Keyboard, Text, View, TouchableWithoutFeedback, 
-		Alert, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+		Alert, KeyboardAvoidingView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Input, Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { showMessage } from 'react-native-flash-message';
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from "axios";
 
 import { colors, Api } from '../config/Config';
 import ProgressDialog from '../components/ProgressDialog';
-import axios from "axios";
+import AsyncKeys from '../utils/AsyncKeys';
 
 const appId = "1047121222092614"
 
@@ -141,7 +143,7 @@ export default class LoginScreen extends Component {
 						console.log(user);
 
 						//save it to the async storage.
-						AsyncStorage.setItem("@User", JSON.stringify(user));
+						AsyncStorage.setItem(AsyncKeys.userKey, JSON.stringify(user));
 
 						Alert.alert(
 							"Login Success!",
