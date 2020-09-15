@@ -13,6 +13,10 @@ import {
 
 import ProgressDialog from './components/ProgressDialog';
 import HomeTab from './Tabs/HomeTab';
+import HymnsTab from './Tabs/HymnsTab';
+import BooksTab from './Tabs/BooksTab';
+import DiaryTab from './Tabs/DiaryTab';
+import InfoTab from './Tabs/InfoTab';
 import { colors } from './config/Config';
 import AsyncKeys from './utils/AsyncKeys';
 
@@ -54,7 +58,7 @@ class MyRouter extends Component {
                 <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
                             
                     <Scene key="Home"  title="Home" icon={HomeTab} component={HomeScreen}  />
-                    <Scene key="Diary" >
+                    <Scene key="Diary" icon={DiaryTab}>
                         <Scene key="diaryMain" title="Church Diary" component={DiaryScreen} initial />
                         <Scene key="readingOne" title="1st Lesson" component={ReadingOneScreen} />
                         <Scene key="readingTwo" title="2nd Lesson" component={ReadingTwoScreen} />
@@ -62,15 +66,15 @@ class MyRouter extends Component {
                         <Scene key="readingPsalms" title="Introit Psalms" component={ReadingPsalmsScreen} />
                     </Scene>
 
-                    <Scene key="Hymn" title="Hymns" component={HymnScreen} />
+                    <Scene key="Hymn" title="Hymns" component={HymnScreen} icon={HymnsTab} />
 
-                    <Scene key="Books" >
+                    <Scene key="Books" icon={BooksTab}>
                         <Scene key="booksMain" title="Books" component={BooksScreen} />
                         <Scene key="messenger" title="The Messenger" component={MessengerScreen} />
                         <Scene key="echo" title="Presbyterian Echo" component={EchoScreen} />
                     </Scene>
 
-                    <Scene key="Info" >
+                    <Scene key="Info" icon={InfoTab}>
                         <Scene key="church_info" title="Church Info" component={ChurchInfoScreen} />
                         <Scene key="churchCalendar" title="Church Calendar" component={ChurchCalendarScreen} />
                         <Scene key="churchHistory" title="Church History" component={ChurchHistoryScreen} />

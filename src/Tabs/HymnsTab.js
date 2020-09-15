@@ -6,11 +6,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { colors } from '../config/Config';
 
 
-const  HomeTab = (props) => {
+const  HymnsTab = (props) => {
 	let textColor = props.focused ? '#333333' : '#999999'
 	let iconColor = props.focused ? colors.primary : '#000'
 	let borderColor = props.focused ? colors.primary : '#FFFFFF'
-	const iconName = "home"
+	const iconName = "import-contacts"
 
 	return (
 		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
@@ -24,4 +24,4 @@ const  HomeTab = (props) => {
 	);
 }
 
-export default HomeTab;
+export default HymnsTab;
