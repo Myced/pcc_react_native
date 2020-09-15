@@ -10,6 +10,8 @@ import {
     ReadingOneScreen, ReadingTwoScreen, ReadingTextScreen, ReadingPsalmsScreen,
     LoginScreen, RegisterScreen
 } from './Screens';
+
+import ProgressDialog from './components/ProgressDialog';
 import HomeTab from './Tabs/HomeTab';
 import { colors } from './config/Config';
 import AsyncKeys from './utils/AsyncKeys';
@@ -17,7 +19,8 @@ import AsyncKeys from './utils/AsyncKeys';
 class MyRouter extends Component {
     
     state = {
-        user: null
+        user: null,
+        loading: true
     }
 
     UNSAFE_componentWillMount()
@@ -25,8 +28,13 @@ class MyRouter extends Component {
         //try to get the authenticated user. 
         const userPromise = AsyncStorage.getItem(AsyncKeys.userKey);
 
-        userPromise.then( user => this.setState({user: JSON.parse(user)}) )
-                    .catch(error => console.error(error) )
+        userPromise.then( user => {
+                        this.setState({user: JSON.parse(user), loading: false})
+                    } )
+                    .catch(error => {
+                        this.setState({loading: false});
+                        console.error(error)
+                    } )
         
     }
 
@@ -80,6 +88,15 @@ class MyRouter extends Component {
 
     render()
     {
+        if(this.state.loading)
+        {
+            return (
+                <ProgressDialog 
+                    label="Loading app....."
+                    visible={this.state.loading}
+                    />
+            )
+        }
         return (
             <Router navigationBarStyle={styles.headerStyle} tintColor="#fff" navBarButtonColor="#fff"
                 titleStyle={styles.titleStyle} leftButtonIconStyle={styles.leftButtonIconStyle}>
