@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, AsyncStorage, Alert } from "react-native";
 import { TextInput } from 'react-native-paper';
 import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -97,7 +97,16 @@ class RegisterScreen extends React.Component {
 
 	loginUser(user)
 	{
-		alert("logging in user");
+		//save it to the async storage.
+		AsyncStorage.setItem("@User", JSON.stringify(user));
+
+		Alert.alert(
+			"Registration Successful!",
+			"Welcome, " + user.name,
+			[
+				{ text: 'OK', onPress: () => Actions.Home() }
+			]
+		)
 	}
 
 	onLoginPress(){

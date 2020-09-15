@@ -22,6 +22,7 @@ let Api = {};
 Api.presbyterianEchoUrl = API_HOST + 'echos';
 Api.theMessengerUrl = API_HOST + "messengers";
 Api.registerUrl = API_HOST + "auth/register";
+Api.loginUrl = API_HOST + "auth/login";
 
 Device.width = Math.round(Dimensions.get('window').width);
 Device.height = Math.round(Dimensions.get('window').height);

@@ -21,7 +21,7 @@ const MyRouter = () => {
                 <Scene key="root" hideNavBar>
                     <Scene key='tabBar' tabs={true} tabBarPosition="bottom" tabBarStyle={styles.tabBar} >
                         <Scene key="Auth">
-                            <Scene key="Login" title="Login" component={LoginScreen} />
+                            <Scene key="Login" title="Welcome" component={LoginScreen} />
                             <Scene key="Register" title="Register" component={RegisterScreen} />
                         </Scene>
                         <Scene key="Home"  title="Home" icon={HomeTab} component={HomeScreen}  />
