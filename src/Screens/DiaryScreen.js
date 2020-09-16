@@ -71,6 +71,39 @@ class DiaryScreen extends Component {
             this.setState({user: finalUser});
         } )
         .catch ( error => console.error(error) );
+
+        //set the diary years activated too. 
+        this.setActiveDiaryYears();
+    }
+
+    setActiveDiaryYears()
+    {
+        console.log("here");
+        
+        const query = "SELECT * FROM `purchases` WHERE `item_type` = '" + ItemTypes.DIARY + "'";
+        const params = [];
+
+        executeSQLQuery(query, params)
+            .then( rows => {
+
+                let currentActiveYears = this.state.activatedYears;
+
+                rows.forEach(item => {
+                    const diaryYear = item.diary_year;
+
+
+                    if( ! this.state.activatedYears.includes(diaryYear))
+                    {
+                        currentActiveYears.push(diaryYear);
+                    }
+                })
+
+                this.setState({activatedYears: currentActiveYears});
+            } )
+            .catch(error => {
+                console.error(error);
+                
+            })
     }
 
     dateFilterCallback()
