@@ -19,7 +19,7 @@ class App extends Component {
         ready: false,
     }
 
-    UNSAFE_componentWillMount()
+    componentDidMount()
     {
         //intialise the database 
         this._initDatabase();

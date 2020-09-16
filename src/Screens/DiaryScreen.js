@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight, ScrollView } from 'react-native';
+import { Text, View, TouchableHighlight, ScrollView, Alert } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import { Button, Icon } from 'react-native-elements';
 import { Avatar, Card, Divider, DefaultTheme } from 'react-native-paper';
 import { Actions } from 'react-native-router-flux';
+import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 
-import { colors } from '../config/Config';
+import { colors, Api } from '../config/Config';
 import { DateUtil } from '../utils/DateUtil';
 import { executeSQLQuery } from '../utils/SQLUtil';
+import { getItemCost, ItemTypes } from '../utils/ItemType';
+import ProgressDialog from '../components/ProgressDialog';
+import AsyncKeys from '../utils/AsyncKeys';
 import days from '../data/days.json';
 import years from '../data/years';
 import months from '../data/months.json';
 
 class DiaryScreen extends Component {
     state = {
+        user: null,
         day: '',
         month: '',
         year: "",
@@ -26,6 +32,8 @@ class DiaryScreen extends Component {
         readingText: "",
         readingPsalms: "",
         activatedYears: ["2018", "2019"],
+        loading: false,
+        loadingText: ""
     };
 
     //initialise the date 
@@ -54,6 +62,15 @@ class DiaryScreen extends Component {
         const dateUtil = new DateUtil(dateToday);
 
         this.setDateViews(day, month, year, dateUtil);
+
+        //get the currently logged in user 
+        const UserPromise = AsyncStorage.getItem(AsyncKeys.userKey);
+
+        UserPromise.then( user => {
+            const finalUser = JSON.parse(user);
+            this.setState({user: finalUser});
+        } )
+        .catch ( error => console.error(error) );
     }
 
     dateFilterCallback()
@@ -185,6 +202,111 @@ class DiaryScreen extends Component {
         }
     }
 
+    buyDiary()
+    {
+        const year = this.state.year;
+        const user = this.state.user;
+        console.log(Api.diaryYearUrl(year));
+        
+
+        //need to buy the diary for this year. 
+        //check if the diary is available.. 
+        this.setState({loading: true, loadingText: "Checking availibility"});
+        axios.get(Api.diaryYearUrl(year))
+            .then( response => {
+                const yearData = response.data;
+
+                if( yearData.is_available === "1" )
+                {
+                    //activate the diary for that year 
+                    //make a purchase request online... 
+                    ///then save it to the local database. 
+                    const purchaseData = {
+                        user_id: user.id,
+                        purchase_item_id: yearData.purchase_item_id,
+                        item_name: "Diary " + year,
+                        item_type: ItemTypes.DIARY,
+                        customer_name: user.name,
+                        customer_tel: user.tel,
+                        amount: getItemCost(ItemTypes.DIARY)
+
+                    };
+
+                    console.log(purchaseData);
+                    
+
+                    this.setState({loadingText: "Purchasing Item..."});
+
+                    axios.post(Api.itemPurchaseUrl, purchaseData)
+                        .then ( response  => {
+                            const purchaseItemData = response.data.data;
+                            const params = [
+                                purchaseItemData.id,
+                                purchaseItemData.user_id,
+                                purchaseItemData.purchase_item_id,
+                                purchaseItemData.item_name,
+                                purchaseItemData.item_type,
+                                purchaseItemData.customer_name,
+                                purchaseItemData.customer_tel,
+                                purchaseItemData.amount,
+                                purchaseItemData.created_at,
+                                year,
+                            ];
+
+                            console.log(purchaseItemData);
+                            //save it to the database.... 
+                            let sql = "INSERT INTO `purchases` "
+                                + " (`remote_id`, `user_id`, `purchase_item_id`, `item_name`, `item_type`, "
+                                + " `customer_name`, `customer_tel`, `amount`, `created_at`, "
+                                + " `diary_year` ) "
+                                + "  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+
+                            //peform the sql query 
+                            executeSQLQuery(sql, params)
+                                .then( result => {
+                                    console.log(result);
+                                    Alert.alert("Success", purchaseItemData.item_name + " purchased successfully");
+                                    this.setState({ loading: false })
+                                } )
+                                .catch( error => {
+                                    this.setState({loading: false})
+                                    console.log(error);
+                                    Alert.alert("Error!", "Failed to save item purchased");
+                                } )
+                            
+                        })
+                        .catch( error => {
+                            console.log(error);
+                            this.setState({loading: false})
+                            Alert.alert("Error", "Failed Purchasing Item");
+                        } )
+                    
+                }
+                else{
+                    //Tell the user the diary is not yet available for purchase. 
+                    Alert.alert(
+                        "Info!!",
+                        "The " + year + " diary is not yet "
+                        + " available for purchase"
+                    );
+
+                    this.setState({loading: false})
+                }
+                
+            })
+            .catch( error => {
+
+                this.setState({loading: false});
+                Alert.alert(
+                    "Error!",
+                    "Could not check diary availability.. Please make " 
+                    + " sur you have a working internet connection"
+                );
+
+            } )
+        
+    }
+
     renderReadingsView()
     {
         //get the selected year first 
@@ -208,7 +330,7 @@ class DiaryScreen extends Component {
                                     Click on the button below to purchase it.
                                 </Text>
                                 <Text style={styles.errorPriceText}>
-                                    Price: 500FCFA
+                                    Price: { getItemCost(ItemTypes.DIARY) } FCFA
                                 </Text>
                             </View>
                         </Card.Content>
@@ -218,7 +340,7 @@ class DiaryScreen extends Component {
                                 title="Buy"
                                 buttonStyle={[styles.buttonStyle, styles.buyButtonStyle]}
                                 riased
-                                onPress={() => alert('pressed')} />
+                                onPress={this.buyDiary.bind(this)} />
                         </Card.Actions>
                     </Card>
                 </View>
@@ -387,6 +509,12 @@ class DiaryScreen extends Component {
 
         return (
             <ScrollView style={styles.containerStyle}>
+
+                <ProgressDialog 
+                    visible={this.state.loading}
+                    label={this.state.loadingText}
+                    />
+
                 <View style={styles.titleContainerStyle}>
                     <Text style={styles.titleTextStyle}>
                         CHURCH DIARY

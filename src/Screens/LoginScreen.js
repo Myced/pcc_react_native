@@ -149,7 +149,12 @@ export default class LoginScreen extends Component {
 							"Login Success!",
 							"Welcome, " + user.name,
 							[
-								{ text: 'OK', onPress: () => Actions.Home() }
+								{ text: 'OK', onPress: () => {
+									console.log(Actions);
+									
+										Actions.Home()
+									} 
+								}
 							]
 						)
 					}
