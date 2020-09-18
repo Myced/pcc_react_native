@@ -30,7 +30,7 @@ const executeSQLQuery = async (sql, params = []) => {
 					reject(error)
 				} 
 			,
-			() => console.log("Transaction success")
+			() => {}
 		);
 
 	});

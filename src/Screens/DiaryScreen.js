@@ -92,7 +92,7 @@ class DiaryScreen extends Component {
                     const diaryYear = item.diary_year;
 
 
-                    if( ! this.state.activatedYears.includes(diaryYear))
+                    if( ! currentActiveYears.includes(diaryYear))
                     {
                         currentActiveYears.push(diaryYear);
                     }
