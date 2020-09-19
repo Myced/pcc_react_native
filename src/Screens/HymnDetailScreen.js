@@ -23,7 +23,6 @@ class HymnDetailScreen extends Component
 						source={{
 							html: content
 						}}
-						style={{ fontSize: 20, flex: 1, borderColor: 'blue', borderWidth:4, height: 200 }}
 						/>
 				</View>
 			</View>
