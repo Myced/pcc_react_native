@@ -38,7 +38,8 @@ class HymnDetailScreen extends Component
 					<meta name="viewport" content="width=device-width, initial-scale=1">
 					<style>
 						body {
-							font-size: 16px;
+							font-size: 18px;
+							text-align: justify;
 						}
 					</style>
 				</head>
