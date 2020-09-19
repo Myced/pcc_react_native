@@ -21,6 +21,7 @@ import ReadingPsalmsScreen from './ReadingPsalmsScreen';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import PDFReaderScreen from './PDFReaderScreen';
+import HymnDetailScreen from './HymnDetailScreen';
 
 export {
 	HomeScreen,
@@ -45,4 +46,5 @@ export {
 	LoginScreen,
 	RegisterScreen,
 	PDFReaderScreen,
+	HymnDetailScreen,
 }

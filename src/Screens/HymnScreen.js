@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, TouchableHighlight } from 'react-native';
 import { Paragraph, Title } from 'react-native-paper';
+import { Actions } from 'react-native-router-flux';
 
 import Hymns from '../dataTest/HymnsData.json';
 
 class HymnScreen extends Component {
+
+    openHymn(hymn)
+    {
+        Actions.HymnDetail({hymn});  
+    }
 
     renderItem(item)
     {
         const hymn = item.item;
         
         return (
-            <View style={styles.rowContainer}>
-                <View>
-                    <View style={styles.circleStyle}>
-                        <Text style={styles.hymnNumberStyle}>{hymn.number}</Text>
+            <TouchableHighlight
+                onPress={ () => this.openHymn(item)} 
+                underlayColor="#ddd" >
+                <View style={styles.rowContainer}>
+                    <View>
+                        <View style={styles.circleStyle}>
+                            <Text style={styles.hymnNumberStyle}>{hymn.number}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.hymnTitleContainerStyle}>
+                        <Title>CHB {hymn.number}</Title>
+                        <Paragraph>{hymn.title}</Paragraph>
                     </View>
                 </View>
-
-                <View style={styles.hymnTitleContainerStyle}>
-                    <Title>CHB {hymn.number}</Title>
-                    <Paragraph>{hymn.title}</Paragraph>
-                </View>
-            </View>
+            </TouchableHighlight>
+            
         );
     }
     render() {
@@ -31,7 +42,7 @@ class HymnScreen extends Component {
                 <FlatList
                     keyExtractor={item => "h" + item.number}
                     data={Hymns}
-                    renderItem={this.renderItem}
+                    renderItem={this.renderItem.bind(this)}
                 />
             </View>
         )
