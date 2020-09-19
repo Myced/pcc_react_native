@@ -23,6 +23,8 @@ class HymnDetailScreen extends Component
 						source={{
 							html: content
 						}}
+						javaScriptEnabled={false}
+						
 						/>
 				</View>
 			</View>
