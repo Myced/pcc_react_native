@@ -4,6 +4,7 @@ import { Button, Card, Title } from 'react-native-paper';
 import * as FileSystem from 'expo-file-system';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import axios from 'axios';
+import { Actions } from 'react-native-router-flux';
 
 import { ItemTypes, getItemCost } from '../utils/ItemType';
 import { Api } from '../config/Config';
@@ -61,7 +62,7 @@ class EchoItem extends Component {
 			isBought = true;
 
 			this.setState({
-				isBought, isDownloaded, purchasedItem, user
+				isBought, isDownloaded, purchasedItem, user, fileUrl
 			});
 		}
 
@@ -73,7 +74,11 @@ class EchoItem extends Component {
 
 	openBook()
 	{
-		alert("opinging");
+		const file_url = this.state.fileUrl;
+
+		const props = { file_url };
+
+		Actions.PDFReader(props);
 	}
 
 	buyItem(item)

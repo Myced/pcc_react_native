@@ -9,7 +9,7 @@ import {
     EducationScreen, CommunicationScreen, PresbyteriesScreen,
     RetiredPastorsScreen, SundaySchoolScreen, EchoScreen, MessengerScreen,
     ReadingOneScreen, ReadingTwoScreen, ReadingTextScreen, ReadingPsalmsScreen,
-    LoginScreen, RegisterScreen
+    LoginScreen, RegisterScreen, PDFReaderScreen
 } from './Screens';
 
 import ProgressDialog from './components/ProgressDialog';
@@ -111,6 +111,7 @@ class MyRouter extends Component {
                             <Scene key="booksMain" title="Books" component={BooksScreen} />
                             <Scene key="messenger" title="The Messenger" component={MessengerScreen} />
                             <Scene key="echo" title="Presbyterian Echo" component={EchoScreen} />
+                            <Scene key="PDFReader" title="Read Magazine" component={PDFReaderScreen} />
                         </Scene>
 
                         <Scene key="Info" icon={InfoTab}>

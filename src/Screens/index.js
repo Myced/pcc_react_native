@@ -20,6 +20,7 @@ import ReadingTextScreen from './ReadingTextScreen';
 import ReadingPsalmsScreen from './ReadingPsalmsScreen';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
+import PDFReaderScreen from './PDFReaderScreen';
 
 export {
 	HomeScreen,
@@ -43,4 +44,5 @@ export {
 	ReadingPsalmsScreen,
 	LoginScreen,
 	RegisterScreen,
+	PDFReaderScreen,
 }
