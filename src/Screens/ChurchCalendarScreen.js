@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 class ChurchCalendarScreen extends Component {
     render() {
         return (
-            <Text> Childrens. </Text>
+            <Text> Error Loading data</Text>
         )
     }
 }

@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 class PresbyteriesScreen extends Component {
     render() {
         return (
-            <Text> Presbyteries Screen </Text>
+            <Text> Error loading data.. check your android version.. </Text>
         )
     }
 }
