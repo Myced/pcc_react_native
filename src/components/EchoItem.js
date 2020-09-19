@@ -307,7 +307,7 @@ class EchoItem extends Component {
 			else{
 				//file has been downloaded... just show the open button 
 				return (
-					<Card.Actions style={[styles.cardActionStyle, ]}>
+					<Card.Actions style={[styles.cardActionStyle, {justifyContent: 'flex-end', marginRight: 20}]}>
 						<Button onPress={() => this.openBook()} >OPEN</Button>
 					</Card.Actions>
 				)
