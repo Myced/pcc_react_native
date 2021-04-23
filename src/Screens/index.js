@@ -22,6 +22,9 @@ import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
 import PDFReaderScreen from './PDFReaderScreen';
 import HymnDetailScreen from './HymnDetailScreen';
+import PaymentMethodScreen from './PaymentMethodScreen';
+import MomoPaymentScreen from './MomoPaymentScreen';
+import ProfileScreen from './ProfileScreen';
 
 export {
 	HomeScreen,
@@ -47,4 +50,7 @@ export {
 	RegisterScreen,
 	PDFReaderScreen,
 	HymnDetailScreen,
+	PaymentMethodScreen,
+	MomoPaymentScreen,
+	ProfileScreen,
 }

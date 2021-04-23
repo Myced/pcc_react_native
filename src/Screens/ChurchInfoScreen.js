@@ -82,16 +82,16 @@ class ChurchInfoScreen extends Component {
                 icon: 'settings-input-component',
                 onPress: this.navigateToPresbyteries.bind(this)
             },
-            // {
-            //     title: 'Retired Pastors',
-            //     icon: 'account-circle',
-            //     onPress: this.navigateToRetiredPastors.bind(this)
-            // },
-            // {
-            //     title: 'Sunday School',
-            //     icon: 'face',
-            //     onPress: this.navigateToSundaySchool.bind(this)
-            // },
+            {
+                title: 'Retired Pastors',
+                icon: 'account-circle',
+                onPress: this.navigateToRetiredPastors.bind(this)
+            },
+            {
+                title: 'Sunday School',
+                icon: 'face',
+                onPress: this.navigateToSundaySchool.bind(this)
+            },
         ];
 
         return (

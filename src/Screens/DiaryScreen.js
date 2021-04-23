@@ -240,6 +240,10 @@ class DiaryScreen extends Component {
         const year = this.state.year;
         const user = this.state.user;
         console.log(Api.diaryYearUrl(year));
+
+        Actions.paymentMethod();
+
+        return;
         
 
         //need to buy the diary for this year. 

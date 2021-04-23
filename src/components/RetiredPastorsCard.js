@@ -1,24 +1,29 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, FlatList } from 'react-native';
+
 import { colors } from '../config/Config';
 
-class HealthItemCard extends Component {
+class RetiredPastorsCard extends Component {
+
+	renderItem(item)
+	{
+		const pastor = item.item;
+		return <Text style={styles.pastorStyle}>{pastor.count} { pastor.name }</Text>
+	}
 
 	render() {
-		
-		const healthItem = this.props.item.item;
+		const presbytery = this.props.item.item;
 		
         return (
 			<View style={ styles.healthCard }>
 				<Text style={ styles.titleStyle }>
-					{healthItem.name}
+					{presbytery.name}
 				</Text>
-				<Text style={ styles.secretaryStyle }>
-					{healthItem.doctor}
-				</Text>
-				<Text style={styles.otherStyle}>{ healthItem.pobox }</Text>
-				<Text style={styles.otherStyle}>{ healthItem.address }</Text>
-				<Text style={styles.otherStyle}>{ healthItem.tel }</Text>
+				<FlatList 
+					keyExtractor= { (item) => "item_" + item.id }
+					data={presbytery.items}
+					renderItem={this.renderItem}
+					/>
 			</View>
         )
     }
@@ -37,7 +42,7 @@ const styles = {
 	titleStyle: {
 		color: colors.primary,
 		fontWeight: 'bold',
-		fontSize: 18,
+		fontSize: 20,
 	},
 
 	secretaryStyle: {
@@ -51,7 +56,14 @@ const styles = {
 		marginTop: 4,
 		marginBottom: 4,
 		fontSize: 16,
+	},
+
+	pastorStyle: {
+		backgroundColor: "#ccc",
+		fontSize: 17,
+		padding: 5,
 	}
+
 }
 
-export default HealthItemCard;
+export default RetiredPastorsCard;

@@ -26,6 +26,11 @@ class HomeScreen extends Component {
         Actions.Info();
     }
 
+    navigateToProfile()
+    {
+        Actions.profile();
+    }
+
     render() {
         return (
             <View style={styles.homeContainer}>
@@ -71,6 +76,17 @@ class HomeScreen extends Component {
                     >
                     <Text style={styles.textStyle}>
                         Church Information
+                    </Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight
+                    activeOpacity={1}
+                    underlayColor="#f40077"
+                    onPress={ this.navigateToProfile }
+                    style={styles.buttonStyle}
+                    >
+                    <Text style={styles.textStyle}>
+                        Profile.
                     </Text>
                 </TouchableHighlight>
 
