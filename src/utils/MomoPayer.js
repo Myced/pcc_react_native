@@ -37,12 +37,13 @@ momo.requestToPay = (refernceId, request, token) => {
 
 		const headers = {
 			"X-Reference-Id": refernceId,
-			"X-Target-Environment": "sandbox",
+			"X-Target-Environment": "mtncameroon",
 			"Ocp-Apim-Subscription-Key": MomoApi.primaryKey,
-			"Authorization": "bearer " + token
+			"Authorization": "Bearer " + token
 		}
 
 		const body = request;
+		console.log(body);
 		const url = MomoApi.requestToPayUrl;
 		//perform the request 
 		axios.post(url, body, { headers: headers })

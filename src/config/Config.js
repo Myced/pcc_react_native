@@ -35,15 +35,19 @@ Device.width = Math.round(Dimensions.get('window').width);
 Device.height = Math.round(Dimensions.get('window').height);
 
 let MomoApi = {};
-MomoApi.primaryKey = "1b5b32cb33fe47a98153a08a31722355";
-MomoApi.secondaryKey = "70d93c92e15945589bf2377a931de7e7";
+// MomoApi.primaryKey = "1b5b32cb33fe47a98153a08a31722355";
+// MomoApi.secondaryKey = "70d93c92e15945589bf2377a931de7e7";
 
-//new for the PCC account.
-MomoApi.primaryKey = "fd9316ce2bfd4aef80dc4357189c48a9";
-MomoApi.secondaryKey = "8ba8e6f63c014effbdb544473ecd76fc";
+// //new for the PCC account.
+// MomoApi.primaryKey = "fd9316ce2bfd4aef80dc4357189c48a9";
+// MomoApi.secondaryKey = "8ba8e6f63c014effbdb544473ecd76fc";
 
-MomoApi.userKey = "889d5ed8-cbd8-41de-8dc0-02e305e3a24a";
-MomoApi.userSecret = "d15932858f5e4a77be74c7a0d8ebddbf";
+//production data 
+MomoApi.primaryKey = "9d75ac375684489691e8e4bd70f663de";
+MomoApi.secondaryKey = "b8fe6e3029ae4162bce7dc6f17e7bd3f";
+
+MomoApi.userKey = "010d94dc-fafe-422b-adf1-70e0e552b6e9";
+MomoApi.userSecret = "634ee09f1a7e4cf19527505f731ccf96";
 MomoApi.accessToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSMjU2In0.eyJjbGllbnRJZCI6Ijg4OWQ1ZWQ4LWNiZDgtNDFkZS04ZGMwLTAyZTMwNWUzYTI0YSIsImV4cGlyZXMiOiIyMDIwLTEwLTI3VDA4OjQ0OjI5LjQwNCIsInNlc3Npb25JZCI6IjY2ZDgwYTBmLWVjMGMtNDdhMy1hYmJlLWJlN2Y5MTE3ZmY4MSJ9.WsIKSdc6t-DUCC9dl6ItGS2gBPV_io3yKip6IC5iZgThmQQ5HaZT6F_tRvU7949T7CcQ75vSUmLvBddY819iPC5LnIiG2CtjY-dvh8QPG1WO_xvYYpXrqokcnoZrfUGuMJKAG5U4gAjWrCu5E3a7UGo418vodqBy-ju92haDfut7bB4YehQnyW5ykpSo4W11Rr0sTPfLql2wxuY5ou5qhFzfwRJKsGMGpZc7CrvOY5hzxBMdJnMaespee9SgWBkvKJy6LzG_nHfC5L0JhI9J28kmsXUmZPYK3jyyh9AhH7zViYH0sm7CmNKWFJwyNyD5WjrQ0IIxfJV5LeyThEA0rA";
 
 //sandbox user crendentials 
@@ -55,12 +59,12 @@ MomoApi.sandbox.user_id = "f4aa6881-4190-4ef1-8759-c2dd4423a99e"; //new for the 
 MomoApi.sandbox.user_secret = "049d3dda50234db7a9b9ca450365a6a7";
 
 //base url and all 
-MomoApi.baseUrl = "https://sandbox.momodeveloper.mtn.com/v1_0/";
+MomoApi.baseUrl = "https://proxy.momoapi.mtn.com/collection/v1_0/";
 MomoApi.environment = MomoEnvironments.SANDBOX;
 // MomoApi.callbackUrl = "	https://webhook.site/1e1d0829-90d2-4868-826b-879dd707bd16";
 MomoApi.callbackUrl = "http://pefscomsys.com";
-MomoApi.tokenUrl = "https://ericssonbasicapi2.azure-api.net/collection/token/";
-MomoApi.requestToPayUrl = "https://ericssonbasicapi2.azure-api.net/collection/v1_0/requesttopay";
+MomoApi.tokenUrl = "https://proxy.momoapi.mtn.com/collection/token/";
+MomoApi.requestToPayUrl = "https://proxy.momoapi.mtn.com/collection/v1_0/requesttopay";
 
 
 export {
