@@ -78,7 +78,6 @@ class DiaryScreen extends Component {
 
     setActiveDiaryYears()
     {
-        console.log("here");
         
         const query = "SELECT * FROM `purchases` WHERE `item_type` = '" + ItemTypes.DIARY + "'";
         const params = [];
@@ -90,7 +89,6 @@ class DiaryScreen extends Component {
 
                 rows.forEach(item => {
                     const diaryYear = item.diary_year;
-
 
                     if( ! currentActiveYears.includes(diaryYear))
                     {
@@ -149,9 +147,6 @@ class DiaryScreen extends Component {
         const date = this.state.day + "/" + this.state.month + "/" + this.state.year;
         
         const sql = "select * from scriptures where date = \"" + date + "\"";
-
-        console.log(sql);
-        
 
         executeSQLQuery(sql)
             .then(result => {
@@ -239,9 +234,21 @@ class DiaryScreen extends Component {
     {
         const year = this.state.year;
         const user = this.state.user;
-        console.log(Api.diaryYearUrl(year));
+        const amount = getItemCost(ItemTypes.DIARY);
+        const title = "Church Diary " + year;
+        const itemType = ItemTypes.DIARY;
+        const itemCode = ItemTypes.DIARY + "-" + year;
 
-        Actions.paymentMethod();
+        const data = {
+            year,
+            user,
+            amount,
+            title,
+            itemType,
+            itemCode
+        };
+
+        Actions.paymentMethod(data);
 
         return;
         

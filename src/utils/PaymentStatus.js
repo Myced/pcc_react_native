@@ -1,0 +1,6 @@
+export default {
+	PENDING: "PENDING",
+	SUCCESS: "SUCCESSFUL",
+	FAILED: "FAILED",
+	REJECTED: "REJECTED"
+}

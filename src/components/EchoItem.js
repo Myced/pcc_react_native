@@ -102,7 +102,7 @@ class EchoItem extends Component {
 		this.props.onDownloadStart();
 
 		//make the http request 
-		axios.post(Api.itemPurchaseUrl, purchaseData)
+		axios.post(Api.addPurchaseItemUrl, purchaseData)
 			.then ( response  => {
 				const purchaseItemData = response.data.data;
 				
@@ -141,14 +141,14 @@ class EchoItem extends Component {
 						this.props.onDownloadFinished();
 						console.log(error);
 						Alert.alert("Error!", "Failed to save item purchased");
-					} )
+					})
 				
 			})
 			.catch( error => {
 				console.log(error);
 				this.props.onDownloadFinished();
 				Alert.alert("Error", "Failed Purchasing Item");
-			} )
+			})
 
 	}
 

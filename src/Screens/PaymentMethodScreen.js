@@ -7,9 +7,39 @@ import { colors } from '../config/Config';
 
 class PaymentMethodScreen extends Component
 {
+	state = {
+		title: "",
+		amount: 0,
+		user: null,
+		year: null,
+		itemType: null,
+		itemcode: null,
+	}
+
+	UNSAFE_componentWillMount()
+	{
+		const title = this.props.title;
+		const amount = this.props.amount;
+		const user = this.props.user;
+		const year = this.props.year;
+		const itemType = this.props.itemType;
+		const itemCode = this.props.itemCode;
+
+		this.setState({title, amount, user, year, itemType, itemCode});
+	}
+
 	goToMomoPayment()
 	{
-		Actions.momoPayment();
+		const data = {
+			title: this.state.title,
+			amount: this.state.amount,
+			user: this.state.user,
+			year: this.state.year,
+			itemType: this.state.itemType,
+			itemCode: this.state.itemCode
+		}
+
+		Actions.momoPayment(data);
 	}
 	render(){
 		return (
@@ -18,13 +48,13 @@ class PaymentMethodScreen extends Component
 					<View style={styles.viewStyle}>
 						<Title>Payment for:</Title>
 						<Text style={styles.itemStyle} >
-							Presbyterian Echo Marcho - 2020 
+							{ this.state.title }
 						</Text>
 					</View>
 
 					<View style={styles.viewStyle}>
 						<Title>Amount:</Title>
-						<Text style={styles.itemStyle} >1000 FCFA</Text>
+						<Text style={styles.itemStyle} >{ this.state.amount } FCFA</Text>
 					</View>
 
 					<View style={styles.viewStyle}>

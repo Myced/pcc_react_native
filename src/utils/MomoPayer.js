@@ -43,10 +43,28 @@ momo.requestToPay = (refernceId, request, token) => {
 		}
 
 		const body = request;
-		console.log(body);
 		const url = MomoApi.requestToPayUrl;
 		//perform the request 
 		axios.post(url, body, { headers: headers })
+			.then( response => resolve(response) )
+			.catch( error => reject(error) );
+
+	})
+}
+
+momo.checkPaymentStatus = ( referenceId, token ) => {
+	return new Promise((resolve, reject) => {
+
+		const headers = {
+			"X-Target-Environment": "mtncameroon",
+			"Ocp-Apim-Subscription-Key": MomoApi.primaryKey,
+			"Authorization": "Bearer " + token
+		}
+
+		const url = MomoApi.checkTransactionUrl(referenceId);
+
+		//perform the request 
+		axios.get(url, { headers: headers })
 			.then( response => resolve(response) )
 			.catch( error => reject(error) );
 

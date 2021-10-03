@@ -29,7 +29,8 @@ Api.theMessengerUrl = API_HOST + "messengers";
 Api.registerUrl = API_HOST + "auth/register";
 Api.loginUrl = API_HOST + "auth/login";
 Api.diaryYearUrl = (year) => API_HOST + 'diary/detail/' + year;
-Api.itemPurchaseUrl = API_HOST + "user/purchase/add";
+Api.addPurchaseItemUrl = API_HOST + "user/purchase/add";
+Api.getPurchaseItemUrl = (itemCode) => API_HOST + "get-purchase-item/" + itemCode;
 
 Device.width = Math.round(Dimensions.get('window').width);
 Device.height = Math.round(Dimensions.get('window').height);
@@ -65,6 +66,9 @@ MomoApi.environment = MomoEnvironments.SANDBOX;
 MomoApi.callbackUrl = "http://pefscomsys.com";
 MomoApi.tokenUrl = "https://proxy.momoapi.mtn.com/collection/token/";
 MomoApi.requestToPayUrl = "https://proxy.momoapi.mtn.com/collection/v1_0/requesttopay";
+MomoApi.checkTransactionUrl = ( refernceId ) => {
+	return "https://proxy.momoapi.mtn.com/collection/v1_0/requesttopay/" + refernceId;
+};
 
 
 export {
