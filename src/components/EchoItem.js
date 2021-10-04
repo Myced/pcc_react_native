@@ -18,10 +18,14 @@ class EchoItem extends Component {
 		isBought: false,
 		fileUrl: "",
 		user: null,
+		year: null,
 	}
 
 	UNSAFE_componentWillMount()
 	{
+		const date = new Date();
+		const year = String(date.getFullYear());
+
 		var purchasedItem = null;
 
 		const purchasedEchos = this.props.purchasedEchos;
@@ -66,7 +70,7 @@ class EchoItem extends Component {
 			});
 		}
 
-		this.setState({purchasedItem, user})
+		this.setState({purchasedItem, user, year})
 
 		//get the user too 
 
@@ -83,72 +87,91 @@ class EchoItem extends Component {
 
 	buyItem(item)
 	{
-		const user = this.state.user;
+		console.log(item);
+		const year = this.state.year;
+        const user = this.state.user;
+        const amount = getItemCost(ItemTypes.ECHO);
+        const title = item.name;
+        const itemType = ItemTypes.ECHO;
+        const itemCode = item.code;
 
-		const purchaseData = {
-			user_id: user.id,
-			purchase_item_id: item.purchase_item_id,
-			item_name: item.name,
-			item_type: ItemTypes.ECHO,
-			customer_name: user.name,
-			customer_tel: user.tel,
-			amount: getItemCost(ItemTypes.ECHO)
-		};
+        const data = {
+            year,
+            user,
+            amount,
+            title,
+            itemType,
+            itemCode
+        };
+
+        Actions.paymentMethod(data);
+
+		// const user = this.state.user;
+
+		// const purchaseData = {
+		// 	user_id: user.id,
+		// 	purchase_item_id: item.purchase_item_id,
+		// 	item_name: item.name,
+		// 	item_type: ItemTypes.ECHO,
+		// 	customer_name: user.name,
+		// 	customer_tel: user.tel,
+		// 	amount: getItemCost(ItemTypes.ECHO)
+		// };
 		
 
-		//make a request to save it.. 
-		const loadingText = "Purchasing Item...";
-		this.props.updateLoadingText(loadingText);
-		this.props.onDownloadStart();
+		// //make a request to save it.. 
+		// const loadingText = "Purchasing Item...";
+		// this.props.updateLoadingText(loadingText);
+		// this.props.onDownloadStart();
 
-		//make the http request 
-		axios.post(Api.addPurchaseItemUrl, purchaseData)
-			.then ( response  => {
-				const purchaseItemData = response.data.data;
+		// //make the http request 
+		// axios.post(Api.addPurchaseItemUrl, purchaseData)
+		// 	.then ( response  => {
+		// 		const purchaseItemData = response.data.data;
 				
-				const params = [
-					purchaseItemData.id,
-					purchaseItemData.user_id,
-					purchaseItemData.purchase_item_id,
-					purchaseItemData.item_name,
-					purchaseItemData.customer_name,
-					purchaseItemData.customer_tel,
-					purchaseItemData.amount,
-					purchaseItemData.item_type,
-					purchaseItemData.created_at,
-				];
+		// 		const params = [
+		// 			purchaseItemData.id,
+		// 			purchaseItemData.user_id,
+		// 			purchaseItemData.purchase_item_id,
+		// 			purchaseItemData.item_name,
+		// 			purchaseItemData.customer_name,
+		// 			purchaseItemData.customer_tel,
+		// 			purchaseItemData.amount,
+		// 			purchaseItemData.item_type,
+		// 			purchaseItemData.created_at,
+		// 		];
 
-				//save it to the database.... 
-				let sql = "INSERT INTO `purchases` "
-					+ " (`remote_id`, `user_id`, `purchase_item_id`, `item_name`,"
-					+ " `customer_name`, `customer_tel`, `amount`, `item_type`, "
-					+ " `created_at` ) "
-					+ "  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+		// 		//save it to the database.... 
+		// 		let sql = "INSERT INTO `purchases` "
+		// 			+ " (`remote_id`, `user_id`, `purchase_item_id`, `item_name`,"
+		// 			+ " `customer_name`, `customer_tel`, `amount`, `item_type`, "
+		// 			+ " `created_at` ) "
+		// 			+ "  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
 				
-				//peform the sql query 
-				executeSQLQuery(sql, params)
-					.then( result => {
+		// 		//peform the sql query 
+		// 		executeSQLQuery(sql, params)
+		// 			.then( result => {
 						
-						this.savePurchaseToState();
+		// 				this.savePurchaseToState();
 
-						Alert.alert("Success", purchaseItemData.item_name + " purchased successfully");
+		// 				Alert.alert("Success", purchaseItemData.item_name + " purchased successfully");
 						
-						this.props.onDownloadFinished();
-						this.setState({ isBought: true });
-					} )
-					.catch( error => {
+		// 				this.props.onDownloadFinished();
+		// 				this.setState({ isBought: true });
+		// 			} )
+		// 			.catch( error => {
 						
-						this.props.onDownloadFinished();
-						console.log(error);
-						Alert.alert("Error!", "Failed to save item purchased");
-					})
+		// 				this.props.onDownloadFinished();
+		// 				console.log(error);
+		// 				Alert.alert("Error!", "Failed to save item purchased");
+		// 			})
 				
-			})
-			.catch( error => {
-				console.log(error);
-				this.props.onDownloadFinished();
-				Alert.alert("Error", "Failed Purchasing Item");
-			})
+		// 	})
+		// 	.catch( error => {
+		// 		console.log(error);
+		// 		this.props.onDownloadFinished();
+		// 		Alert.alert("Error", "Failed Purchasing Item");
+		// 	})
 
 	}
 

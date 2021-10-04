@@ -9,7 +9,7 @@ const costs = {
 	HYMN: 1000,
 	DIARY: 500,
 	ECHO: 100,
-	MESSENGER: 500
+	MESSENGER: 500,
 };
 
 const getItemCost = (itemType) => {

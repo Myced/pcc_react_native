@@ -383,18 +383,23 @@ class MomoPaymentScreen extends Component
 		if(itemType === ItemTypes.DIARY)
 		{	
 			Actions.Diary();
+			return ;
 		}
 		else if( itemType === ItemTypes.HYMN)
 		{
 			Actions.Hymn();
+			return ;
 		}
 		else if ( itemType === ItemTypes.ECHO )
 		{
-			Actions.Books();
+			Actions.echo();
+
+			return;
 		}
 		else if ( itemType === ItemTypes.MESSENGER )
 		{
-			Actions.Books();
+			Actions.messenger();
+			return ;
 		}
 
 		// console.log("At this level");
