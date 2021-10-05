@@ -79,7 +79,7 @@ class HomeScreen extends Component {
                     </Text>
                 </TouchableHighlight>
 
-                <TouchableHighlight
+                {/* <TouchableHighlight
                     activeOpacity={1}
                     underlayColor="#f40077"
                     onPress={ this.navigateToProfile }
@@ -88,7 +88,7 @@ class HomeScreen extends Component {
                     <Text style={styles.textStyle}>
                         Profile.
                     </Text>
-                </TouchableHighlight>
+                </TouchableHighlight> */}
 
             </View>
         )

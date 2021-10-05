@@ -179,7 +179,7 @@ class MyRouter extends Component {
                             <Scene key = "sundaySchool" title = "Sunday School" component = { SundaySchoolScreen } /> 
                         </Scene>
 
-                        <Scene key = "profile" icon = { InfoTab } title = "Profile" component = { ProfileScreen } /> 
+                        {/* <Scene key = "profile" icon = { InfoTab } title = "Profile" component = { ProfileScreen } />  */}
                     </Scene>
 
                 </Drawer>

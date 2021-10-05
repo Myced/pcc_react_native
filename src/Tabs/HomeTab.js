@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { Avatar } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import { colors } from '../config/Config';
 
@@ -16,7 +16,7 @@ const  HomeTab = (props) => {
 		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
 			<Icon
 				name={iconName}
-				size={35}
+				size={30}
 				color={iconColor}
 				/>
 			{/* <Text style={{color: textColor}}>Home</Text> */}
