@@ -13,7 +13,7 @@ const  HymnsTab = (props) => {
 	const iconName = "import-contacts"
 
 	return (
-		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:1, padding:2}}>
+		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
 			<Icon
 				name={iconName}
 				size={30}
