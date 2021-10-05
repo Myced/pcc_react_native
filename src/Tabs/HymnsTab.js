@@ -7,16 +7,16 @@ import { colors } from '../config/Config';
 
 
 const  HymnsTab = (props) => {
-	let textColor = props.focused ? '#333333' : '#999999'
-	let iconColor = props.focused ? colors.primary : '#000'
+	let textColor = props.focused ? colors.primary : '#999999'
+	let iconColor = props.focused ? colors.primary : '#777'
 	let borderColor = props.focused ? colors.primary : '#FFFFFF'
 	const iconName = "import-contacts"
 
 	return (
-		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
+		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:1, padding:2}}>
 			<Icon
 				name={iconName}
-				size={35}
+				size={30}
 				color={iconColor}
 				/>
 			{/* <Text style={{color: textColor}}>Home</Text> */}

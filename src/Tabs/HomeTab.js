@@ -8,7 +8,7 @@ import { colors } from '../config/Config';
 
 const  HomeTab = (props) => {
 	let textColor = props.focused ? '#333333' : '#999999'
-	let iconColor = props.focused ? colors.primary : '#000'
+	let iconColor = props.focused ? colors.primary : '#777'
 	let borderColor = props.focused ? colors.primary : '#FFFFFF'
 	const iconName = "home"
 

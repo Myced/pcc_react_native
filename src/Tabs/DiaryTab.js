@@ -16,7 +16,7 @@ const  DiaryTab = (props) => {
 		<View style={{flex: 1, flexDirection:'column', alignItems:'center', justifyContent:'center', borderTopColor: borderColor, borderTopWidth:4, padding:2}}>
 			<Icon
 				name={iconName}
-				size={30}
+				size={25}
 				color={iconColor}
 				/>
 			{/* <Text style={{color: textColor}}>Home</Text> */}
