@@ -3,7 +3,6 @@
     "name": "MyPCC",
     "slug": "mypcc",
     "version": "3.0.0",
-    "android.versionCode": "15",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -25,7 +24,8 @@
     },
     "packagerOpts": {},
     "android": {
-      "package": "com.pefscom.pcc"
+      "package": "com.pefscomsys.pcc_buea",
+      "versionCode": 15
     }
   }
 }
