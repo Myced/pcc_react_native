@@ -44,8 +44,6 @@ class App extends Component {
         //get the database uri
         const dburi = `${FileSystem.documentDirectory}SQLite/${database.name}`;
         const app = this;
-        console.log("Database Init started");
-        
 
         //check if the database already exists
         FileSystem.getInfoAsync(dburi, {})

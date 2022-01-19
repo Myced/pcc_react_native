@@ -12,6 +12,8 @@ import axios from "axios";
 import { colors, Api } from '../config/Config';
 import ProgressDialog from '../components/ProgressDialog';
 import AsyncKeys from '../utils/AsyncKeys';
+import { saveReadings } from '../utils/SaveReadings';
+import { saveUserPurchases } from '../utils/SaveUserPayments';
 
 const appId = "1047121222092614"
 
@@ -19,8 +21,8 @@ export default class LoginScreen extends Component {
 
 	state = {
 		loading: false,
-		tel: "",
-		password: "",
+		tel: "673901939",
+		password: "Cedric@2017",
 		dialogText: "Logging user in..."
 	}
 
@@ -113,6 +115,7 @@ export default class LoginScreen extends Component {
 	onLoginPress() {
 		//get telephone number and the password..
 		const { tel, password } = this.state;
+		const app = this;
 		
 		// validate the form fields.
 		if( tel === "" || password === "")
@@ -135,12 +138,10 @@ export default class LoginScreen extends Component {
 			axios.post(Api.loginUrl, data)
 				.then( response => {
 					const data = response.data; 
-
 					if(data.success)
 					{
 						//log the user in.. 
 						const user = data.data;
-						console.log(user);
 
 						//save it to the async storage.
 						AsyncStorage.setItem(AsyncKeys.userKey, JSON.stringify(user));
@@ -149,10 +150,13 @@ export default class LoginScreen extends Component {
 							"Login Success!",
 							"Welcome, " + user.name,
 							[
-								{ text: 'OK', onPress: () => {
-									console.log(Actions);
-									
-										Actions.Home()
+								{
+									text: 'OK', 
+									onPress: () => {
+										//sync the user data.
+										//set the loader message
+										app.setState({ dialogText: "Synchronising data" });
+										app.syncData(user);
 									} 
 								}
 							]
@@ -164,9 +168,8 @@ export default class LoginScreen extends Component {
 							"Login Error!",
 							data.message
 						);
+						this.setState({loading: false});
 					}
-
-					this.setState({loading: false});
 
 				})
 				.catch( error => {
@@ -183,7 +186,53 @@ export default class LoginScreen extends Component {
 		}
 	}
 
+	async syncData(user){
+		console.log("Syncing data");
 
+		await this.syncReadings();
+
+		//get the user purchases first. 
+		const postData = {
+			user_id: user.id
+		};
+
+		axios.post(Api.userPurchasesUrl, postData)
+				.then( async response => {
+					const data = response.data;
+					const purchases = data.data;
+
+					//save them to the database;
+					await saveUserPurchases(purchases);
+
+					this.setState({loading: false});
+					Actions.Home()
+
+				})
+				.catch(error => {
+					alert("Could not fetch user data");
+					console.warn(error);
+				})
+
+	}
+
+	async syncReadings(){
+		const years = [2020, 2021, 2022];
+
+		for(let i = 0; i < years.length; i++)
+		{
+			const year = years[i];
+
+			//load the readings for each year.
+			const readingUrl = Api.diaryReadingsUrl(year);
+
+			const results = await axios.get(readingUrl);
+			const readings = results.data;
+
+			await saveReadings(readings);
+		}
+
+		console.log("Done saving readings");
+	}
 }
 
 const styles = {

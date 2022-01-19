@@ -67,7 +67,7 @@ class RegisterScreen extends React.Component {
 					password: password
 				};
 
-				//make the request 
+				//make the request
 				axios.post(Api.registerUrl, data)
 					.then( (response) => {
 						console.log(response.data);
@@ -87,8 +87,12 @@ class RegisterScreen extends React.Component {
 					.catch( error => {
 						this.setState({loading: false});
 
-						alert("Encountered an error");
+						Alert.alert(
+							"Registration Error!",
+							"Please make sure you have a working internet connection"
+						);
 						console.log(error.message);
+						console.warn(error);
 						
 					})
 			}

@@ -4,7 +4,7 @@ import { Paragraph, Title } from 'react-native-paper';
 import { Actions } from 'react-native-router-flux';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Icon } from 'react-native-elements';
-import { Avatar, Card, Divider, DefaultTheme } from 'react-native-paper';
+import { Avatar, Card, Divider, DefaultTheme, Searchbar } from 'react-native-paper';
 
 import Hymns from '../dataTest/HymnsData.json';
 import AsyncKeys from '../utils/AsyncKeys';
@@ -20,6 +20,7 @@ class HymnScreen extends Component {
         itemTitle: "Church Hymn Book",
         year: null,
         user: null,
+        searchQuery: "",
     }
 
     UNSAFE_componentWillMount()
@@ -96,6 +97,11 @@ class HymnScreen extends Component {
         Actions.HymnDetail({hymn});  
     }
 
+    onChangeSearch(query)
+    {
+        this.setState({searchQuery: query});
+    }
+
     renderItem(item)
     {
         const hymn = item.item;
@@ -138,6 +144,11 @@ class HymnScreen extends Component {
         else {
             return (
                 <View style={ styles.centerView }>
+                    <Searchbar
+                        placeholder="Search Hymns"
+                        onChangeText={this.onChangeSearch.bind(this)}
+                        value={this.state.searchQuery}
+                        />
                     <View style={styles.errorView}>
                         <Card elevation={2}>
                             <Card.Title title="Error " subtitle="" left={LeftContent} />
@@ -208,6 +219,7 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         // alignItems: 'center'
+        backgroundColor: "#f6f7fc",
     },
 
     errorView: {

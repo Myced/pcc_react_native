@@ -29,8 +29,10 @@ Api.theMessengerUrl = API_HOST + "messengers";
 Api.registerUrl = API_HOST + "auth/register";
 Api.loginUrl = API_HOST + "auth/login";
 Api.diaryYearUrl = (year) => API_HOST + 'diary/detail/' + year;
+Api.diaryReadingsUrl = (year) => API_HOST + "diary/readings/" + year;
 Api.addPurchaseItemUrl = API_HOST + "user/purchase/add";
 Api.getPurchaseItemUrl = (itemCode) => API_HOST + "get-purchase-item/" + itemCode;
+Api.userPurchasesUrl = API_HOST + "user/purchase/list";
 
 Device.width = Math.round(Dimensions.get('window').width);
 Device.height = Math.round(Dimensions.get('window').height);
