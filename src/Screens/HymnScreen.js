@@ -10,6 +10,7 @@ import Hymns from '../dataTest/HymnsData.json';
 import AsyncKeys from '../utils/AsyncKeys';
 import { ItemTypes, getItemCost } from '../utils/ItemType';
 import { executeSQLQuery } from '../utils/SQLUtil';
+import { colors } from '../config/Config';
 
 class HymnScreen extends Component {
 
@@ -21,10 +22,12 @@ class HymnScreen extends Component {
         year: null,
         user: null,
         searchQuery: "",
+        hymns: [],
     }
 
     UNSAFE_componentWillMount()
     {
+        this.setState({hymns: Hymns});
         this.setUser();
         this.checkHymnAvailability();
 
@@ -100,6 +103,45 @@ class HymnScreen extends Component {
     onChangeSearch(query)
     {
         this.setState({searchQuery: query});
+
+        if(query === ""){
+            //initialise the hymns
+            this.setState({hymns: Hymns});
+            return ;
+        }
+
+        //set the hymns to only be those that match the search Query.
+        const intValue = parseInt(query);
+
+        let hymns = [];
+
+        if(isNaN(intValue))
+        {
+            //the query is not an integer..
+            //search through the content
+            hymns = Hymns.filter(hymn => {
+                const title = hymn.title;
+                const content = hymn.content;
+
+                if(title.includes(query))
+                    return true;
+
+                if(content.includes(query))
+                    return true;
+                
+            });
+        }
+        else{
+            //search through with the number.
+            hymns = Hymns.filter(hymn => {
+                const numberString = hymn.number.toString();
+
+                if(numberString.includes(query))
+                    return true;
+            });
+        }
+
+        this.setState({hymns: hymns});
     }
 
     renderItem(item)
@@ -109,7 +151,7 @@ class HymnScreen extends Component {
         return (
             <TouchableHighlight
                 onPress={ () => this.openHymn(item)} 
-                underlayColor="#ddd" >
+                underlayColor={'transparent'} >
                 <View style={styles.rowContainer}>
                     <View>
                         <View style={styles.circleStyle}>
@@ -132,23 +174,28 @@ class HymnScreen extends Component {
         if( this.state.isPurchased )
         {
             return (
-                <View>
-                    <FlatList
-                        keyExtractor={item => "h" + item.number}
-                        data={Hymns}
-                        renderItem={this.renderItem.bind(this)}
-                    />
+                <View style={styles.container}>
+                    <Searchbar
+                        placeholder="Search Hymns"
+                        onChangeText={this.onChangeSearch.bind(this)}
+                        value={this.state.searchQuery}
+                        style={styles.searchBarStyle}
+                        />
+                    <View style={styles.flatListStyle}>
+                        <FlatList
+                            keyExtractor={item => "h" + item.number}
+                            data={this.state.hymns}
+                            showsHorizontalScrollIndicator={false}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={this.renderItem.bind(this)}
+                        />
+                    </View>
                 </View>
             )
         }
         else {
             return (
                 <View style={ styles.centerView }>
-                    <Searchbar
-                        placeholder="Search Hymns"
-                        onChangeText={this.onChangeSearch.bind(this)}
-                        value={this.state.searchQuery}
-                        />
                     <View style={styles.errorView}>
                         <Card elevation={2}>
                             <Card.Title title="Error " subtitle="" left={LeftContent} />
@@ -183,11 +230,25 @@ class HymnScreen extends Component {
 }
 
 const styles = {
+    container: {
+        backgroundColor: colors.new_background,
+        padding: 10,
+    },
+
+    searchBarStyle: {
+        marginBottom: 10,
+    },
+
+    flatListStyle: {
+        marginBottom: 110,
+    },
+
     rowContainer: {
         flexDirection: 'row',
         padding: 5,
-        borderBottomColor: '#a4a4a4',
-        borderBottomWidth: 1
+        backgroundColor: "#fff",
+        marginBottom: 10,
+        borderRadius: 10,
     },
 
     circleStyle: {

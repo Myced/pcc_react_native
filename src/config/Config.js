@@ -2,7 +2,8 @@ import { Dimensions } from "react-native";
 
 const colors = {
 	primary: "#ee0057",
-	background: "#e4e4e4"
+	background: "#e4e4e4",
+	new_background: "#f6f7fc",
 }
 
 const database = {

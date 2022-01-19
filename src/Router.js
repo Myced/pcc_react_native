@@ -100,7 +100,9 @@ class MyRouter extends Component {
                             <Scene key = "readingPsalms" title = "Introit Psalms" component = { ReadingPsalmsScreen } /> 
                         </Scene>
 
-                        <Scene key = "Hymn" title = "Hymns" component = { HymnScreen } icon = { HymnsTab } />
+                        <Scene key = "Hymn" title = "Hymns" component = { HymnScreen } icon = { HymnsTab } >
+                            <Scene key="HymnDetail" title = "HymnDetail" component = { HymnDetailScreen } /> 
+                        </Scene>
 
                         <Scene key = "Books" icon = { BooksTab } >
                             <Scene key = "booksMain" title = "Books" component = { BooksScreen } /> 
@@ -156,7 +158,7 @@ class MyRouter extends Component {
                         </Scene>
 
                         <Scene key = "Hymn" icon = { HymnsTab } >
-                            <Scene key = "HymnList" title = "Hymns" component = { HymnScreen } initial / >
+                            <Scene key = "HymnList" title = "Hymns" component = { HymnScreen } initial />
                             <Scene key = "HymnDetail" title = "Hymn Content" component = { HymnDetailScreen } /> 
                         </Scene>
 

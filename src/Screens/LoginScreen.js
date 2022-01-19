@@ -21,8 +21,8 @@ export default class LoginScreen extends Component {
 
 	state = {
 		loading: false,
-		tel: "673901939",
-		password: "Cedric@2017",
+		tel: "",
+		password: "",
 		dialogText: "Logging user in..."
 	}
 
